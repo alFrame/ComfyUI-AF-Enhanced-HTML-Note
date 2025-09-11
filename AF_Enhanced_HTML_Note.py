@@ -6,7 +6,7 @@
 #
 # LICENSE: MIT License
 #
-# v0.0.01
+# v0.0.02
 #
 # Description:
 # A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
@@ -15,13 +15,16 @@
 # Read Me on Github
 #
 # Changelog:
+# v0.0.02
+# - Fixed naming consistency to HTML_Note
+# - Implemented single-window toggle behavior
 # v0.0.01
 # - Initial Version
 #
 # Feature Requests / Wet Dreams
 # - 
 
-class AF_Enhanced_HTML:
+class AF_Enhanced_HTML_Note:
     """
     AF Enhanced HTML-Note node with colored sections and rich formatting
     """
@@ -62,16 +65,16 @@ class AF_Enhanced_HTML:
 
     RETURN_TYPES = ()
     OUTPUT_NODE = True
-    FUNCTION = "af_display_html"
-    CATEGORY = "AF"
+    FUNCTION = "af_display_html_note"
+    CATEGORY = "AF - Nodes"
 
-    def af_display_html(self, html_content):
+    def af_display_html_note(self, html_content):
         """
         Display enhanced HTML content
         """
         return {
             "ui": {
-                "af_html": [{
+                "af_html_note": [{
                     "content": html_content
                 }]
             }
@@ -79,9 +82,9 @@ class AF_Enhanced_HTML:
 
 # Node mappings for ComfyUI
 NODE_CLASS_MAPPINGS = {
-    "AF_Enhanced_HTML": AF_Enhanced_HTML,
+    "AF_Enhanced_HTML_Note": AF_Enhanced_HTML_Note,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "AF_Enhanced_HTML": "AF - Enhanced HTML",
+    "AF_Enhanced_HTML_Note": "AF - Enhanced HTML Note",
 }

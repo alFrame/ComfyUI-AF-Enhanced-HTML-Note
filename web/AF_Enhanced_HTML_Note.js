@@ -1,91 +1,145 @@
-// File: web/AF_Enhanced_HTML.js
+// File: web/AF_Enhanced_HTML_Note.js
 
 import { app } from "../../scripts/app.js";
 
 // Define inline CSS styles
-const AF_HTML_STYLES = `
-    .af-html-widget {
+const AF_HTML_NOTE_STYLES = `
+    .af-html-note-widget {
         background: var(--comfy-menu-bg, #2a2a2a);
         border: 1px solid var(--border-color, #555);
-        border-radius: 8px;
+        
         padding: 16px;
-        margin: 8px 0;
-        max-height: 400px;
-        overflow-y: auto;
+        margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
         line-height: 1.6;
         color: var(--input-text, #ffffff);
         box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         min-height: 100px;
         word-wrap: break-word;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        overflow-y: auto;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
     }
 
-    .af-html-widget h1, .af-html-widget h2, .af-html-widget h3, 
-    .af-html-widget h4, .af-html-widget h5, .af-html-widget h6 {
+    .af-html-note-widget:hover {
+        background: var(--comfy-menu-bg-hover, #333);
+        border-color: var(--border-color-hover, #777);
+    }
+
+    .af-html-note-editor {
+        background: var(--comfy-menu-bg, #2a2a2a);
+        border: 1px solid var(--border-color, #555);
+        
+        padding: 16px;
+        margin: 0;
+        font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+        line-height: 1.4;
+        color: var(--input-text, #ffffff);
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        resize: none;
+        outline: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 14px;
+        display: none;
+    }
+
+    .af-html-note-editor:focus {
+        border-color: var(--border-color-focus, #0078d4);
+    }
+
+    /* When in edit mode, hide the display and show the editor */
+    .af-html-note-container.edit-mode .af-html-note-widget {
+        display: none !important;
+    }
+
+    .af-html-note-container.edit-mode .af-html-note-editor {
+        display: block !important;
+    }
+
+    /* When not in edit mode, show display and hide editor */
+    .af-html-note-container:not(.edit-mode) .af-html-note-widget {
+        display: block !important;
+    }
+
+    .af-html-note-container:not(.edit-mode) .af-html-note-editor {
+        display: none !important;
+    }
+
+    .af-html-note-widget h1, .af-html-note-widget h2, .af-html-note-widget h3, 
+    .af-html-note-widget h4, .af-html-note-widget h5, .af-html-note-widget h6 {
         margin-top: 0;
         margin-bottom: 12px;
         font-weight: 600;
     }
 
-    .af-html-widget h1 { font-size: 1.5em; }
-    .af-html-widget h2 { font-size: 1.3em; }
-    .af-html-widget h3 { font-size: 1.1em; }
+    .af-html-note-widget h1 { font-size: 1.5em; }
+    .af-html-note-widget h2 { font-size: 1.3em; }
+    .af-html-note-widget h3 { font-size: 1.1em; }
 
-    .af-html-widget .af-section {
+    .af-html-note-widget .af-section {
         padding: 12px 16px;
         margin: 8px 0;
         border-radius: 6px;
         border-left: 4px solid;
     }
 
-    .af-html-widget .af-section.af-positive {
+    .af-html-note-widget .af-section.af-positive {
         background: rgba(144, 238, 144, 0.1);
         border-left-color: #90EE90;
     }
 
-    .af-html-widget .af-section.af-negative {
+    .af-html-note-widget .af-section.af-negative {
         background: rgba(255, 107, 107, 0.1);
         border-left-color: #FF6B6B;
     }
 
-    .af-html-widget .af-section.af-neutral {
+    .af-html-note-widget .af-section.af-neutral {
         background: rgba(224, 224, 224, 0.1);
         border-left-color: #E0E0E0;
     }
 
-    .af-html-widget .af-section.af-info {
+    .af-html-note-widget .af-section.af-info {
         background: rgba(135, 206, 235, 0.1);
         border-left-color: #87CEEB;
     }
 
-    .af-html-widget .af-section.af-warning {
+    .af-html-note-widget .af-section.af-warning {
         background: rgba(255, 215, 0, 0.1);
         border-left-color: #FFD700;
     }
 
-    .af-html-widget .af-section.af-custom {
+    .af-html-note-widget .af-section.af-custom {
         background: rgba(186, 85, 211, 0.1);
         border-left-color: #BA55D3;
     }
 
-    .af-html-widget .af-spacer { height: 16px; margin: 8px 0; }
-    .af-html-widget .af-spacer-small { height: 8px; margin: 4px 0; }
-    .af-html-widget .af-spacer-large { height: 32px; margin: 16px 0; }
-    .af-html-widget .af-spacer-xl { height: 48px; margin: 24px 0; }
+    .af-html-note-widget .af-spacer { height: 16px; margin: 8px 0; }
+    .af-html-note-widget .af-spacer-small { height: 8px; margin: 4px 0; }
+    .af-html-note-widget .af-spacer-large { height: 32px; margin: 16px 0; }
+    .af-html-note-widget .af-spacer-xl { height: 48px; margin: 24px 0; }
 
-    .af-html-widget a {
+    .af-html-note-widget a {
         color: #58a6ff;
         text-decoration: none;
-        cursor: pointer;
         transition: color 0.2s ease;
     }
 
-    .af-html-widget a:hover {
+    .af-html-note-widget a:hover {
         color: #79c0ff;
         text-decoration: underline;
     }
 
-    .af-html-widget code {
+    .af-html-note-widget code {
         background: rgba(0,0,0,0.3);
         padding: 2px 6px;
         border-radius: 4px;
@@ -94,7 +148,7 @@ const AF_HTML_STYLES = `
         color: #f0f6fc;
     }
 
-    .af-html-widget pre {
+    .af-html-note-widget pre {
         background: rgba(0,0,0,0.4);
         border: 1px solid #444;
         border-radius: 6px;
@@ -103,113 +157,249 @@ const AF_HTML_STYLES = `
         overflow-x: auto;
     }
 
-    .af-html-widget pre code {
+    .af-html-note-widget pre code {
         background: transparent;
         padding: 0;
     }
 
-    .af-html-widget ul, .af-html-widget ol {
+    .af-html-note-widget ul, .af-html-note-widget ol {
         padding-left: 20px;
         margin: 12px 0;
     }
 
-    .af-html-widget li { margin: 4px 0; }
-    .af-html-widget p { margin: 8px 0; }
+    .af-html-note-widget li { margin: 4px 0; }
+    .af-html-note-widget p { margin: 8px 0; }
 
-    .af-html-widget table {
+    .af-html-note-widget table {
         border-collapse: collapse;
         width: 100%;
         margin: 16px 0;
     }
 
-    .af-html-widget th, .af-html-widget td {
+    .af-html-note-widget th, .af-html-note-widget td {
         border: 1px solid var(--border-color, #555);
         padding: 8px 12px;
         text-align: left;
     }
 
-    .af-html-widget th {
+    .af-html-note-widget th {
         background: rgba(255,255,255,0.1);
         font-weight: 600;
     }
 
-    .af-html-widget hr {
+    .af-html-note-widget hr {
         border: none;
         border-top: 1px solid var(--border-color, #555);
         margin: 16px 0;
         opacity: 0.6;
     }
 
-    .af-html-widget::-webkit-scrollbar { width: 8px; }
-    .af-html-widget::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-    .af-html-widget::-webkit-scrollbar-thumb { 
+    .af-html-note-widget::-webkit-scrollbar { width: 8px; }
+    .af-html-note-widget::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+    .af-html-note-widget::-webkit-scrollbar-thumb { 
         background: var(--border-color, #555); 
         border-radius: 4px; 
     }
-    .af-html-widget::-webkit-scrollbar-thumb:hover { background: #777; }
+    .af-html-note-widget::-webkit-scrollbar-thumb:hover { background: #777; }
+
+    .af-html-note-editor::-webkit-scrollbar { width: 8px; }
+    .af-html-note-editor::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+    .af-html-note-editor::-webkit-scrollbar-thumb { 
+        background: var(--border-color, #555); 
+        border-radius: 4px; 
+    }
+    .af-html-note-editor::-webkit-scrollbar-thumb:hover { background: #777; }
 `;
 
 // Inject styles
 function injectStyles() {
-    const styleId = 'af-html-styles';
+    const styleId = 'af-html-note-styles';
     if (!document.getElementById(styleId)) {
         const style = document.createElement('style');
         style.id = styleId;
-        style.textContent = AF_HTML_STYLES;
+        style.textContent = AF_HTML_NOTE_STYLES;
         document.head.appendChild(style);
     }
 }
 
 app.registerExtension({
-    name: "AF.enhanced.html",
+    name: "AF.enhanced.html.note",
     
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        if (nodeData.name === "AF_Enhanced_HTML") {
+        if (nodeData.name === "AF_Enhanced_HTML_Note") {
             injectStyles();
             
             const onExecuted = nodeType.prototype.onExecuted;
             nodeType.prototype.onExecuted = function(message) {
                 onExecuted?.apply(this, arguments);
                 
-                if (message.af_html) {
-                    const htmlData = message.af_html[0];
-                    this.displayHTML(htmlData.content);
+                if (message.af_html_note) {
+                    const htmlData = message.af_html_note[0];
+                    this.updateHTMLDisplay(htmlData.content);
                 }
             };
 
-            nodeType.prototype.displayHTML = function(content) {
-                // Remove existing widget if present
-                if (this.htmlElement) {
-                    this.htmlElement.remove();
+            nodeType.prototype.updateHTMLDisplay = function(content) {
+                if (this.htmlNoteElement && !this.isEditMode) {
+                    this.htmlNoteElement.innerHTML = content;
+                    this.handleLinksInHTML();
                 }
+            };
 
-                // Create HTML display element
-                this.htmlElement = document.createElement("div");
-                this.htmlElement.className = "af-html-widget";
-                this.htmlElement.innerHTML = content;
+            nodeType.prototype.handleLinksInHTML = function() {
+                if (!this.htmlNoteElement) return;
                 
-                // Handle links
-                const links = this.htmlElement.querySelectorAll('a');
+                const links = this.htmlNoteElement.querySelectorAll('a');
                 links.forEach(link => {
                     link.onclick = (e) => {
-                        e.preventDefault();
+                        e.stopPropagation(); // Prevent triggering edit mode
                         if (link.href && !link.href.includes('#')) {
                             window.open(link.href, '_blank');
                         }
                     };
                 });
+            };
 
-                // Add as DOM widget
-                if (!this.htmlWidget) {
-                    this.htmlWidget = this.addDOMWidget(
-                        "html_display", 
-                        "div", 
-                        this.htmlElement
-                    );
+            nodeType.prototype.toggleEditMode = function() {
+                if (!this.containerElement) return;
+
+                this.isEditMode = !this.isEditMode;
+                
+                if (this.isEditMode) {
+                    // Switch to edit mode
+                    this.containerElement.classList.add('edit-mode');
+                    this.editorElement.value = this.htmlContent;
+                    setTimeout(() => this.editorElement.focus(), 0);
+                    
+                    // Enable canvas click listener when entering edit mode
+                    this.enableCanvasClickListener();
+                } else {
+                    // Switch to display mode
+                    this.containerElement.classList.remove('edit-mode');
+                    this.htmlContent = this.editorElement.value;
+                    this.htmlNoteElement.innerHTML = this.htmlContent;
+                    this.handleLinksInHTML();
+                    
+                    // Update the widget value
+                    const htmlWidget = this.widgets?.find(w => w.name === "html_content");
+                    if (htmlWidget) {
+                        htmlWidget.value = this.htmlContent;
+                    }
+                    
+                    // Disable canvas click listener when exiting edit mode
+                    this.disableCanvasClickListener();
                 }
                 
-                this.htmlWidget.element = this.htmlElement;
-                this.setSize(this.computeSize());
+                this.setDirtyCanvas(true, true);
+            };
+
+            nodeType.prototype.setupCanvasClickListener = function() {
+                this.canvasClickHandler = (e) => {
+                    // Only handle if we're in edit mode
+                    if (!this.isEditMode) return;
+                    
+                    // Check if the click is outside this node
+                    const nodeRect = this.getBounding();
+                    const canvasPos = app.canvas.convertEventToCanvasOffset(e);
+                    
+                    // If click is outside node bounds, exit edit mode
+                    if (canvasPos[0] < nodeRect[0] || 
+                        canvasPos[0] > nodeRect[0] + nodeRect[2] || 
+                        canvasPos[1] < nodeRect[1] || 
+                        canvasPos[1] > nodeRect[1] + nodeRect[3]) {
+                        
+                        console.log('Canvas click outside node detected, exiting edit mode');
+                        this.toggleEditMode();
+                    }
+                };
+                
+                this.canvasClickListenerActive = false;
+            };
+
+            nodeType.prototype.enableCanvasClickListener = function() {
+                if (!this.canvasClickListenerActive && this.canvasClickHandler) {
+                    // Add listener to the document to catch all clicks
+                    document.addEventListener('mousedown', this.canvasClickHandler, true);
+                    this.canvasClickListenerActive = true;
+                    console.log('Canvas click listener enabled');
+                }
+            };
+
+            nodeType.prototype.disableCanvasClickListener = function() {
+                if (this.canvasClickListenerActive && this.canvasClickHandler) {
+                    document.removeEventListener('mousedown', this.canvasClickHandler, true);
+                    this.canvasClickListenerActive = false;
+                    console.log('Canvas click listener disabled');
+                }
+            };
+
+            nodeType.prototype.cleanupCanvasClickListener = function() {
+                this.disableCanvasClickListener();
+                this.canvasClickHandler = null;
+            };
+
+            nodeType.prototype.createHTMLNoteDisplay = function(content) {
+                this.htmlContent = content;
+                
+                // Create container element
+                this.containerElement = document.createElement("div");
+                this.containerElement.className = "af-html-note-container";
+                this.containerElement.style.cssText = `
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                `;
+                
+                // Create HTML display element
+                this.htmlNoteElement = document.createElement("div");
+                this.htmlNoteElement.className = "af-html-note-widget";
+                this.htmlNoteElement.innerHTML = content;
+                
+                // Create editor element
+                this.editorElement = document.createElement("textarea");
+                this.editorElement.className = "af-html-note-editor";
+                this.editorElement.value = content;
+                
+                // Append both elements to container
+                this.containerElement.appendChild(this.htmlNoteElement);
+                this.containerElement.appendChild(this.editorElement);
+                
+                // Add click handler to toggle edit mode
+                this.htmlNoteElement.addEventListener('click', (e) => {
+                    console.log('HTML element clicked, target:', e.target.tagName);
+                    // Don't toggle if clicking on a link
+                    if (e.target.tagName.toLowerCase() !== 'a') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.toggleEditMode();
+                    }
+                });
+
+                // Handle editor events
+                this.editorElement.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.toggleEditMode();
+                    }
+                    // Prevent the keydown from bubbling up and affecting ComfyUI
+                    e.stopPropagation();
+                });
+
+                // Prevent editor blur from affecting other ComfyUI interactions
+                this.editorElement.addEventListener('blur', (e) => {
+                    e.stopPropagation();
+                });
+
+                this.handleLinksInHTML();
+
+                // Add the container as a single DOM widget
+                this.htmlNoteWidget = this.addDOMWidget(
+                    "html_note_container", 
+                    "div", 
+                    this.containerElement
+                );
+                
+                return this.htmlNoteWidget;
             };
 
             // Display initial content on node creation
@@ -217,18 +407,62 @@ app.registerExtension({
             nodeType.prototype.onNodeCreated = function() {
                 onNodeCreated?.apply(this, arguments);
                 
-                // Get the HTML content from the input widget
-                const htmlWidget = this.widgets?.find(w => w.name === "html_content");
-                if (htmlWidget) {
-                    this.displayHTML(htmlWidget.value);
-                    
-                    // Update display when content changes
-                    const originalCallback = htmlWidget.callback;
-                    htmlWidget.callback = (value) => {
-                        if (originalCallback) originalCallback(value);
-                        this.displayHTML(value);
-                    };
-                }
+                this.isEditMode = false;
+                
+                // Set initial larger size
+                this.size = [400, 300];
+                
+                // Hide the original input widget completely
+                setTimeout(() => {
+                    const htmlWidget = this.widgets?.find(w => w.name === "html_content");
+                    if (htmlWidget) {
+                        // Hide the widget completely
+                        htmlWidget.computeSize = () => [0, -4]; // Make it take no space
+                        if (htmlWidget.inputEl) {
+                            htmlWidget.inputEl.style.display = 'none';
+                            htmlWidget.inputEl.style.position = 'absolute';
+                            htmlWidget.inputEl.style.top = '-9999px';
+                        }
+                        
+                        // Create our custom display
+                        this.createHTMLNoteDisplay(htmlWidget.value);
+                        
+                        // Force widget layout refresh
+                        this.setSize(this.computeSize());
+                    }
+                }, 0);
+                
+                // Override the default double-click behavior
+                this.onDblClick = () => {
+                    console.log('Double click detected, isEditMode:', this.isEditMode);
+                    if (!this.isEditMode) {
+                        this.toggleEditMode();
+                    }
+                };
+                
+                // Exit edit mode when node is deselected
+                const originalOnDeselected = this.onDeselected;
+                this.onDeselected = function() {
+                    console.log('Node deselected, isEditMode:', this.isEditMode);
+                    if (originalOnDeselected) originalOnDeselected.call(this);
+                    if (this.isEditMode) {
+                        this.toggleEditMode();
+                    }
+                };
+                
+                // Prevent other mouse events from interfering
+                const originalOnMouseDown = this.onMouseDown;
+                this.onMouseDown = function(e, localPos, graphCanvas) {
+                    // Don't interfere with our custom elements
+                    if (e.target === this.htmlNoteElement || 
+                        e.target === this.editorElement || 
+                        this.containerElement?.contains(e.target)) {
+                        return;
+                    }
+                    if (originalOnMouseDown) {
+                        return originalOnMouseDown.call(this, e, localPos, graphCanvas);
+                    }
+                };
             };
         }
     }
