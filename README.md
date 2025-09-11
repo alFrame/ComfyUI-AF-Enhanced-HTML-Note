@@ -1,5 +1,7 @@
 # AF Enhanced HTML Node - Usage Guide
 
+A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
+
 ## Basic Section Colors
 
 ```html
