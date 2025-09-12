@@ -6,7 +6,7 @@
 #
 # LICENSE: MIT License
 #
-# v0.0.02
+# v0.0.03
 #
 # Description:
 # A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
@@ -15,6 +15,11 @@
 # Read Me on Github
 #
 # Changelog:
+# v0.0.03
+# - Fixed node resizing issues on save/reload
+# - Improved selection and edit mode behavior to match ComfyUI core notes
+# - Fixed middle mouse button panning over the node
+# - Improved HTML indentation in default content
 # v0.0.02
 # - Fixed naming consistency to HTML_Note
 # - Implemented single-window toggle behavior
@@ -39,25 +44,25 @@ class AF_Enhanced_HTML_Note:
     <h2>🟢 Positive Prompts</h2>
     <p>Your positive prompts go here...</p>
     <a href="#" onclick="alert('Link clicked!')">Click me!</a>
-    </div>
+</div>
 
-    <div class="af-spacer"></div>
+<div class="af-spacer"></div>
 
-    <div class="af-section af-negative">
-        <h2>🔴 Negative Prompts</h2>
-        <p>Your negative prompts go here...</p>
-    </div>
+<div class="af-section af-negative">
+    <h2>🔴 Negative Prompts</h2>
+    <p>Your negative prompts go here...</p>
+</div>
 
-    <div class="af-spacer-large"></div>
+<div class="af-spacer-large"></div>
 
-    <div class="af-section af-neutral">
-        <h3>📝 Notes</h3>
-        <p>Additional notes and information...</p>
-        <ul>
-            <li>Item 1</li>
-            <li>Item 2</li>
-        </ul>
-    </div>""",
+<div class="af-section af-neutral">
+    <h3>📝 Notes</h3>
+    <p>Additional notes and information...</p>
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+    </ul>
+</div>""",
                     "placeholder": "Enter your HTML content here..."
                 }),
             }

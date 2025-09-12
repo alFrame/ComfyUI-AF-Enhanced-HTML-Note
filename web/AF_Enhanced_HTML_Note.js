@@ -7,7 +7,7 @@ const AF_HTML_NOTE_STYLES = `
     .af-html-note-widget {
         background: var(--comfy-menu-bg, #2a2a2a);
         border: 1px solid var(--border-color, #555);
-        
+        /* border-radius: 6px; */
         padding: 16px;
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -20,11 +20,12 @@ const AF_HTML_NOTE_STYLES = `
         height: 100%;
         box-sizing: border-box;
         overflow-y: auto;
-        cursor: pointer;
+        cursor: text;
         position: absolute;
         top: 0;
         left: 0;
         display: block;
+        pointer-events: auto;
     }
 
     .af-html-note-widget:hover {
@@ -35,7 +36,7 @@ const AF_HTML_NOTE_STYLES = `
     .af-html-note-editor {
         background: var(--comfy-menu-bg, #2a2a2a);
         border: 1px solid var(--border-color, #555);
-        
+        /* border-radius: 6px; */
         padding: 16px;
         margin: 0;
         font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
@@ -252,7 +253,7 @@ app.registerExtension({
                 const links = this.htmlNoteElement.querySelectorAll('a');
                 links.forEach(link => {
                     link.onclick = (e) => {
-                        e.stopPropagation(); // Prevent triggering edit mode
+                        e.stopPropagation();
                         if (link.href && !link.href.includes('#')) {
                             window.open(link.href, '_blank');
                         }
@@ -260,86 +261,44 @@ app.registerExtension({
                 });
             };
 
-            nodeType.prototype.toggleEditMode = function() {
-                if (!this.containerElement) return;
-
-                this.isEditMode = !this.isEditMode;
+            nodeType.prototype.enterEditMode = function() {
+                if (this.isEditMode || !this.containerElement) return;
                 
-                if (this.isEditMode) {
-                    // Switch to edit mode
-                    this.containerElement.classList.add('edit-mode');
-                    this.editorElement.value = this.htmlContent;
-                    setTimeout(() => this.editorElement.focus(), 0);
-                    
-                    // Enable canvas click listener when entering edit mode
-                    this.enableCanvasClickListener();
-                } else {
-                    // Switch to display mode
-                    this.containerElement.classList.remove('edit-mode');
-                    this.htmlContent = this.editorElement.value;
-                    this.htmlNoteElement.innerHTML = this.htmlContent;
-                    this.handleLinksInHTML();
-                    
-                    // Update the widget value
-                    const htmlWidget = this.widgets?.find(w => w.name === "html_content");
-                    if (htmlWidget) {
-                        htmlWidget.value = this.htmlContent;
-                    }
-                    
-                    // Disable canvas click listener when exiting edit mode
-                    this.disableCanvasClickListener();
+                console.log('Entering edit mode');
+                this.isEditMode = true;
+                this.containerElement.classList.add('edit-mode');
+                this.editorElement.value = this.htmlContent;
+                
+                setTimeout(() => {
+                    this.editorElement.focus();
+                    this.editorElement.setSelectionRange(0, 0);
+                }, 10);
+                
+                this.setDirtyCanvas?.(true, true);
+            };
+
+            nodeType.prototype.exitEditMode = function() {
+                if (!this.isEditMode || !this.containerElement) return;
+                
+                console.log('Exiting edit mode');
+                this.isEditMode = false;
+                this.containerElement.classList.remove('edit-mode');
+                this.htmlContent = this.editorElement.value;
+                this.htmlNoteElement.innerHTML = this.htmlContent;
+                this.handleLinksInHTML();
+                
+                // Update the widget value
+                const htmlWidget = this.widgets?.find(w => w.name === "html_content");
+                if (htmlWidget) {
+                    htmlWidget.value = this.htmlContent;
                 }
                 
-                this.setDirtyCanvas(true, true);
-            };
-
-            nodeType.prototype.setupCanvasClickListener = function() {
-                this.canvasClickHandler = (e) => {
-                    // Only handle if we're in edit mode
-                    if (!this.isEditMode) return;
-                    
-                    // Check if the click is outside this node
-                    const nodeRect = this.getBounding();
-                    const canvasPos = app.canvas.convertEventToCanvasOffset(e);
-                    
-                    // If click is outside node bounds, exit edit mode
-                    if (canvasPos[0] < nodeRect[0] || 
-                        canvasPos[0] > nodeRect[0] + nodeRect[2] || 
-                        canvasPos[1] < nodeRect[1] || 
-                        canvasPos[1] > nodeRect[1] + nodeRect[3]) {
-                        
-                        console.log('Canvas click outside node detected, exiting edit mode');
-                        this.toggleEditMode();
-                    }
-                };
-                
-                this.canvasClickListenerActive = false;
-            };
-
-            nodeType.prototype.enableCanvasClickListener = function() {
-                if (!this.canvasClickListenerActive && this.canvasClickHandler) {
-                    // Add listener to the document to catch all clicks
-                    document.addEventListener('mousedown', this.canvasClickHandler, true);
-                    this.canvasClickListenerActive = true;
-                    console.log('Canvas click listener enabled');
-                }
-            };
-
-            nodeType.prototype.disableCanvasClickListener = function() {
-                if (this.canvasClickListenerActive && this.canvasClickHandler) {
-                    document.removeEventListener('mousedown', this.canvasClickHandler, true);
-                    this.canvasClickListenerActive = false;
-                    console.log('Canvas click listener disabled');
-                }
-            };
-
-            nodeType.prototype.cleanupCanvasClickListener = function() {
-                this.disableCanvasClickListener();
-                this.canvasClickHandler = null;
+                this.setDirtyCanvas?.(true, true);
             };
 
             nodeType.prototype.createHTMLNoteDisplay = function(content) {
                 this.htmlContent = content;
+                this.isEditMode = false;
                 
                 // Create container element
                 this.containerElement = document.createElement("div");
@@ -365,34 +324,68 @@ app.registerExtension({
                 this.containerElement.appendChild(this.htmlNoteElement);
                 this.containerElement.appendChild(this.editorElement);
                 
-                // Add click handler to toggle edit mode
+                // Add click handler for entering edit mode
                 this.htmlNoteElement.addEventListener('click', (e) => {
-                    console.log('HTML element clicked, target:', e.target.tagName);
-                    // Don't toggle if clicking on a link
-                    if (e.target.tagName.toLowerCase() !== 'a') {
+                    // Don't enter edit mode if clicking on a link
+                    if (e.target.tagName.toLowerCase() === 'a') {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('HTML note clicked, entering edit mode');
+                    this.enterEditMode();
+                });
+
+                // Handle middle mouse button to allow canvas panning
+                this.htmlNoteElement.addEventListener('mousedown', (e) => {
+                    if (e.button === 1) { // Middle mouse button
                         e.preventDefault();
                         e.stopPropagation();
-                        this.toggleEditMode();
+                        // Let the canvas handle this event instead
+                        const canvasEvent = new MouseEvent('mousedown', {
+                            bubbles: true,
+                            cancelable: true,
+                            button: e.button,
+                            buttons: e.buttons,
+                            clientX: e.clientX,
+                            clientY: e.clientY
+                        });
+                        app.canvas.canvas.dispatchEvent(canvasEvent);
+                    }
+                });
+
+                this.editorElement.addEventListener('mousedown', (e) => {
+                    if (e.button === 1) { // Middle mouse button
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Let the canvas handle this event instead
+                        const canvasEvent = new MouseEvent('mousedown', {
+                            bubbles: true,
+                            cancelable: true,
+                            button: e.button,
+                            buttons: e.buttons,
+                            clientX: e.clientX,
+                            clientY: e.clientY
+                        });
+                        app.canvas.canvas.dispatchEvent(canvasEvent);
                     }
                 });
 
                 // Handle editor events
                 this.editorElement.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        this.toggleEditMode();
-                    }
-                    // Prevent the keydown from bubbling up and affecting ComfyUI
-                    e.stopPropagation();
+                    e.stopPropagation(); // Prevent ComfyUI from handling these
                 });
 
-                // Prevent editor blur from affecting other ComfyUI interactions
                 this.editorElement.addEventListener('blur', (e) => {
+                    // Don't exit edit mode on blur - only on explicit actions
                     e.stopPropagation();
                 });
 
                 this.handleLinksInHTML();
 
-                // Add the container as a single DOM widget
+                // Add the container as a DOM widget
                 this.htmlNoteWidget = this.addDOMWidget(
                     "html_note_container", 
                     "div", 
@@ -400,6 +393,76 @@ app.registerExtension({
                 );
                 
                 return this.htmlNoteWidget;
+            };
+
+            // Override mouse handling
+            nodeType.prototype.onMouseDown = function(e, localPos, graphCanvas) {
+                // If clicking outside the node content area, exit edit mode
+                if (this.isEditMode && e.button === 0) {
+                    const rect = this.getBounding();
+                    const canvasPos = graphCanvas.convertOffsetToCanvas([e.clientX, e.clientY]);
+                    
+                    // Check if click is outside the node bounds
+                    if (canvasPos[0] < rect[0] || canvasPos[0] > rect[0] + rect[2] ||
+                        canvasPos[1] < rect[1] || canvasPos[1] > rect[1] + rect[3]) {
+                        this.exitEditMode();
+                    }
+                }
+                
+                // Allow middle mouse for canvas panning
+                if (e.button === 1) {
+                    return false;
+                }
+                
+                return true;
+            };
+
+            // Handle canvas clicks to exit edit mode
+            const originalOnCanvasMouseDown = app.canvas.onMouseDown;
+            app.canvas.onMouseDown = function(e) {
+                // Find any nodes in edit mode and exit them when clicking on canvas
+                if (app.graph) {
+                    for (const node of app.graph._nodes) {
+                        if (node.type === "AF_Enhanced_HTML_Note" && node.isEditMode) {
+                            // Check if click is outside this node
+                            const rect = node.getBounding();
+                            const canvasPos = this.convertOffsetToCanvas([e.clientX, e.clientY]);
+                            
+                            if (canvasPos[0] < rect[0] || canvasPos[0] > rect[0] + rect[2] ||
+                                canvasPos[1] < rect[1] || canvasPos[1] > rect[1] + rect[3]) {
+                                node.exitEditMode();
+                            }
+                        }
+                    }
+                }
+                
+                return originalOnCanvasMouseDown?.call(this, e);
+            };
+
+            // Override serialize to maintain size
+            const originalSerialize = nodeType.prototype.serialize;
+            nodeType.prototype.serialize = function() {
+                const data = originalSerialize ? originalSerialize.apply(this, arguments) : {};
+                
+                // Store the current size
+                if (this.size) {
+                    data.size = [this.size[0], this.size[1]];
+                }
+                
+                return data;
+            };
+
+            // Override configure to restore size
+            const originalConfigure = nodeType.prototype.configure;
+            nodeType.prototype.configure = function(info) {
+                if (originalConfigure) {
+                    originalConfigure.apply(this, arguments);
+                }
+                
+                // Restore size if it was saved
+                if (info.size) {
+                    this.size = [info.size[0], info.size[1]];
+                }
             };
 
             // Display initial content on node creation
@@ -410,59 +473,36 @@ app.registerExtension({
                 this.isEditMode = false;
                 
                 // Set initial larger size
-                this.size = [400, 300];
+                this.size = [500, 400];
                 
                 // Hide the original input widget completely
                 setTimeout(() => {
                     const htmlWidget = this.widgets?.find(w => w.name === "html_content");
                     if (htmlWidget) {
                         // Hide the widget completely
-                        htmlWidget.computeSize = () => [0, -4]; // Make it take no space
-                        if (htmlWidget.inputEl) {
-                            htmlWidget.inputEl.style.display = 'none';
-                            htmlWidget.inputEl.style.position = 'absolute';
-                            htmlWidget.inputEl.style.top = '-9999px';
+                        htmlWidget.computeSize = () => [0, -4];
+                        if (htmlWidget.element) {
+                            htmlWidget.element.style.display = 'none';
                         }
                         
                         // Create our custom display
                         this.createHTMLNoteDisplay(htmlWidget.value);
                         
-                        // Force widget layout refresh
-                        this.setSize(this.computeSize());
+                        // Force size update
+                        this.setSize(this.size);
                     }
                 }, 0);
+            };
+
+            // Handle Escape key globally for this node type
+            const originalOnKeyDown = nodeType.prototype.onKeyDown;
+            nodeType.prototype.onKeyDown = function(e) {
+                if (e.key === 'Escape' && this.isEditMode) {
+                    this.exitEditMode();
+                    return true; // Handled
+                }
                 
-                // Override the default double-click behavior
-                this.onDblClick = () => {
-                    console.log('Double click detected, isEditMode:', this.isEditMode);
-                    if (!this.isEditMode) {
-                        this.toggleEditMode();
-                    }
-                };
-                
-                // Exit edit mode when node is deselected
-                const originalOnDeselected = this.onDeselected;
-                this.onDeselected = function() {
-                    console.log('Node deselected, isEditMode:', this.isEditMode);
-                    if (originalOnDeselected) originalOnDeselected.call(this);
-                    if (this.isEditMode) {
-                        this.toggleEditMode();
-                    }
-                };
-                
-                // Prevent other mouse events from interfering
-                const originalOnMouseDown = this.onMouseDown;
-                this.onMouseDown = function(e, localPos, graphCanvas) {
-                    // Don't interfere with our custom elements
-                    if (e.target === this.htmlNoteElement || 
-                        e.target === this.editorElement || 
-                        this.containerElement?.contains(e.target)) {
-                        return;
-                    }
-                    if (originalOnMouseDown) {
-                        return originalOnMouseDown.call(this, e, localPos, graphCanvas);
-                    }
-                };
+                return originalOnKeyDown ? originalOnKeyDown.call(this, e) : false;
             };
         }
     }
