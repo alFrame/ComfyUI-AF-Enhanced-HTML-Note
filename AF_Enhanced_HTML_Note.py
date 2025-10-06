@@ -23,8 +23,9 @@
 #
 # Changelog:
 # v0.0.04
-# - Removed width and height parameters - using standard ComfyUI resizing
-# - Simplified node to be just the HTML display
+# - Fixed node selection and resizing by removing OUTPUT_NODE and using proper widget approach
+# - Double clicking is now used to edit the html
+# - Mouse interaction is now persistent to ComfyUI behaviour. Except middle mouse button for panning.
 # v0.0.03
 # - Fixed node resizing issues on save/reload
 # - Improved selection and edit mode behavior to match ComfyUI core notes
