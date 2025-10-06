@@ -66,9 +66,9 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
     <h3>🎨 Custom</h3>
     <p>Custom styled content...</p>
 </div>
-
+```
 # 📐 Spacers
-
+```html
 <!-- Small spacer -->
 <div class="af-spacer-small"></div>
 
@@ -94,9 +94,9 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 
 <!-- JavaScript links -->
 <a href="javascript:alert('Hello!')">JavaScript link</a>
-
+```
 # 📋 Complete Example Template
-
+```html
 <div class="af-section af-positive">
     <h2>🟢 Positive Prompts</h2>
     <p><strong>masterpiece, best quality, highly detailed</strong></p>
@@ -150,7 +150,7 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
     <hr>
     <p><small>Last updated: Today | Created with AF Enhanced HTML Node</small></p>
 </div>
-
+```
 🛠️ Installation
 Create folder: ComfyUI/custom_nodes/ComfyUI-AF_Enhanced_HTML_Note/
 
