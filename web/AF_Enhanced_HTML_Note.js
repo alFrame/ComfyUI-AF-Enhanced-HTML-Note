@@ -10,23 +10,61 @@ const AF_HTML_NOTE_STYLES = `
         min-height: 100px;
         background: var(--comfy-menu-bg, #2a2a2a);
         border: 1px solid var(--border-color, #555);
-        padding: 16px;
+        padding: 8px; /* Reduced padding */
         box-sizing: border-box;
-        overflow-y: auto;
+        overflow: hidden; /* Changed from auto to hidden */
         cursor: default;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
         line-height: 1.6;
         color: var(--input-text, #ffffff);
+        display: flex;
+        flex-direction: column;
     }
 
     .af-html-note-content {
         width: 100%;
         height: 100%;
+        /* Allow double-clicks for editing */
+        pointer-events: auto;
+        overflow-y: auto; /* Move scroll to content instead of container */
+        flex: 1;
+    }
+
+    .af-html-note-editor {
+        width: 100%;
+        height: 100%;
+        background: var(--comfy-menu-bg, #2a2a2a);
+        border: 1px solid var(--border-color, #555);
+        padding: 8px; /* Reduced padding to match container */
+        font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+        line-height: 1.4;
+        color: var(--input-text, #ffffff);
+        box-sizing: border-box;
+        resize: none;
+        outline: none;
+        font-size: 14px;
+        display: none;
+        pointer-events: auto;
+        flex: 1;
+    }
+
+    /* Enable link interactions only when Ctrl is held */
+    .af-html-note-content a {
+        color: #58a6ff;
+        text-decoration: none;
+        /* Links are not clickable by default */
         pointer-events: none;
     }
 
-    body.af-ctrl-active .af-html-note-content {
+    body.af-ctrl-active .af-html-note-content a {
+        /* Links become clickable when Ctrl is held */
         pointer-events: auto;
+        cursor: pointer;
+    }
+
+    body.af-ctrl-active .af-html-note-content a:hover {
+        color: #79c0ff;
+        text-decoration: underline;
     }
 
     .af-html-note-editor {
@@ -43,6 +81,7 @@ const AF_HTML_NOTE_STYLES = `
         outline: none;
         font-size: 14px;
         display: none;
+        pointer-events: auto;
     }
 
     .af-html-note-container.edit-mode .af-html-note-content {
@@ -53,7 +92,7 @@ const AF_HTML_NOTE_STYLES = `
         display: block;
     }
 
-    /* HTML content styles */
+    /* Rest of your CSS remains exactly the same... */
     .af-html-note-content h1, .af-html-note-content h2, .af-html-note-content h3, 
     .af-html-note-content h4, .af-html-note-content h5, .af-html-note-content h6 {
         margin-top: 0;
@@ -106,16 +145,6 @@ const AF_HTML_NOTE_STYLES = `
     .af-html-note-content .af-spacer-small { height: 8px; margin: 4px 0; }
     .af-html-note-content .af-spacer-large { height: 32px; margin: 16px 0; }
     .af-html-note-content .af-spacer-xl { height: 48px; margin: 24px 0; }
-
-    .af-html-note-content a {
-        color: #58a6ff;
-        text-decoration: none;
-    }
-
-    body.af-ctrl-active .af-html-note-content a:hover {
-        color: #79c0ff;
-        text-decoration: underline;
-    }
 
     .af-html-note-content code {
         background: rgba(0,0,0,0.3);
@@ -235,58 +264,58 @@ app.registerExtension({
                 return result;
             };
 
-            nodeType.prototype.createHTMLNoteDisplay = function(content) {
-                // Create container element
-                this.containerElement = document.createElement("div");
-                this.containerElement.className = "af-html-note-container";
-                
-                // Create HTML content display
-                this.contentElement = document.createElement("div");
-                this.contentElement.className = "af-html-note-content";
-                this.contentElement.innerHTML = content;
-                
-                // Create editor element
-                this.editorElement = document.createElement("textarea");
-                this.editorElement.className = "af-html-note-editor";
-                this.editorElement.value = content;
-                
-                // Append both elements to container
-                this.containerElement.appendChild(this.contentElement);
-                this.containerElement.appendChild(this.editorElement);
-                
-                // Add double-click to edit
-                this.containerElement.addEventListener('dblclick', (e) => {
-                    if (!this.isEditMode) {
-                        this.enterEditMode();
-                        e.stopPropagation();
-                    }
-                });
+			nodeType.prototype.createHTMLNoteDisplay = function(content) {
+				// Create container element
+				this.containerElement = document.createElement("div");
+				this.containerElement.className = "af-html-note-container";
+				
+				// Create HTML content display
+				this.contentElement = document.createElement("div");
+				this.contentElement.className = "af-html-note-content";
+				this.contentElement.innerHTML = content;
+				
+				// Create editor element
+				this.editorElement = document.createElement("textarea");
+				this.editorElement.className = "af-html-note-editor";
+				this.editorElement.value = content;
+				
+				// Append both elements to container
+				this.containerElement.appendChild(this.contentElement);
+				this.containerElement.appendChild(this.editorElement);
+				
+				// Add double-click to edit - works anytime (no Ctrl required)
+				this.contentElement.addEventListener('dblclick', (e) => {
+					if (!this.isEditMode) {
+						this.enterEditMode();
+						e.stopPropagation();
+					}
+				});
 
-                // Handle links
-                this.handleLinksInHTML();
+				// Handle links
+				this.handleLinksInHTML();
 
-                // Handle editor events
-                this.editorElement.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') {
-                        this.exitEditMode();
-                        e.preventDefault();
-                        e.stopPropagation();
-                    } else {
-                        e.stopPropagation();
-                    }
-                });
+				// Handle editor events
+				this.editorElement.addEventListener('keydown', (e) => {
+					if (e.key === 'Escape') {
+						this.exitEditMode();
+						e.preventDefault();
+						e.stopPropagation();
+					} else {
+						e.stopPropagation();
+					}
+				});
 
-                this.editorElement.addEventListener('blur', () => {
-                    setTimeout(() => {
-                        if (this.isEditMode && document.activeElement !== this.editorElement) {
-                            this.exitEditMode();
-                        }
-                    }, 10);
-                });
+				this.editorElement.addEventListener('blur', () => {
+					setTimeout(() => {
+						if (this.isEditMode && document.activeElement !== this.editorElement) {
+							this.exitEditMode();
+						}
+					}, 10);
+				});
 
-                // Add as DOM widget
-                this.addDOMWidget("html_note_display", "div", this.containerElement);
-            };
+				// Add as DOM widget
+				this.addDOMWidget("html_note_display", "div", this.containerElement);
+			};
 
             nodeType.prototype.enterEditMode = function() {
                 if (this.isEditMode) return;
@@ -322,30 +351,36 @@ app.registerExtension({
                 this.handleLinksInHTML();
             };
 
-            nodeType.prototype.handleLinksInHTML = function() {
-                if (!this.contentElement) return;
-                
-                const links = this.contentElement.querySelectorAll('a');
-                links.forEach(link => {
-                    link.onclick = (e) => {
-                        // Only handle links when Ctrl is active
-                        if (!document.body.classList.contains('af-ctrl-active')) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            return false;
-                        }
-                        
-                        // Handle external links
-                        if (link.href && !link.href.includes('#') && !link.href.startsWith('javascript:')) {
-                            e.preventDefault();
-                            window.open(link.href, '_blank');
-                        }
-                        
-                        e.stopPropagation();
-                        return false;
-                    };
-                });
-            };
+			nodeType.prototype.handleLinksInHTML = function() {
+				if (!this.contentElement) return;
+				
+				const links = this.contentElement.querySelectorAll('a');
+				links.forEach(link => {
+					// Remove any existing handlers
+					link.onclick = null;
+					
+					// Add new handler that requires Ctrl key
+					link.addEventListener('click', (e) => {
+						// Only handle links when Ctrl is active
+						if (!document.body.classList.contains('af-ctrl-active')) {
+							e.preventDefault();
+							e.stopPropagation();
+							return false;
+						}
+						
+						// Handle external links
+						if (link.href && !link.href.includes('#') && !link.href.startsWith('javascript:')) {
+							e.preventDefault();
+							window.open(link.href, '_blank');
+						}
+						// For javascript: links and onclick handlers, let them execute naturally
+						// Don't prevent default or stop propagation for these
+						
+						e.stopPropagation();
+						return false;
+					});
+				});
+			};
 
             // Global Ctrl key handling
             let ctrlKeyActive = false;
