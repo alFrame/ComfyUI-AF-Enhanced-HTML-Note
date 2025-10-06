@@ -4,10 +4,17 @@ import { app } from "../../scripts/app.js";
 
 // Define inline CSS styles
 const AF_HTML_NOTE_STYLES = `
+    .af-html-note-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 100px;
+        pointer-events: none; /* Allow events to pass through to node */
+    }
+
     .af-html-note-widget {
         background: var(--comfy-menu-bg, #2a2a2a);
         border: 1px solid var(--border-color, #555);
-        /* border-radius: 6px; */
         padding: 16px;
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
@@ -21,11 +28,7 @@ const AF_HTML_NOTE_STYLES = `
         box-sizing: border-box;
         overflow-y: auto;
         cursor: text;
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        pointer-events: auto;
+        pointer-events: auto; /* Re-enable events only for the content */
     }
 
     .af-html-note-widget:hover {
@@ -36,7 +39,6 @@ const AF_HTML_NOTE_STYLES = `
     .af-html-note-editor {
         background: var(--comfy-menu-bg, #2a2a2a);
         border: 1px solid var(--border-color, #555);
-        /* border-radius: 6px; */
         padding: 16px;
         margin: 0;
         font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
@@ -47,11 +49,9 @@ const AF_HTML_NOTE_STYLES = `
         box-sizing: border-box;
         resize: none;
         outline: none;
-        position: absolute;
-        top: 0;
-        left: 0;
         font-size: 14px;
         display: none;
+        pointer-events: auto; /* Re-enable events only for the editor */
     }
 
     .af-html-note-editor:focus {
@@ -76,6 +76,7 @@ const AF_HTML_NOTE_STYLES = `
         display: none !important;
     }
 
+    /* Rest of your styles remain the same */
     .af-html-note-widget h1, .af-html-note-widget h2, .af-html-note-widget h3, 
     .af-html-note-widget h4, .af-html-note-widget h5, .af-html-note-widget h6 {
         margin-top: 0;
@@ -273,8 +274,6 @@ app.registerExtension({
                     this.editorElement.focus();
                     this.editorElement.setSelectionRange(0, 0);
                 }, 10);
-                
-                this.setDirtyCanvas?.(true, true);
             };
 
             nodeType.prototype.exitEditMode = function() {
@@ -291,9 +290,11 @@ app.registerExtension({
                 const htmlWidget = this.widgets?.find(w => w.name === "html_content");
                 if (htmlWidget) {
                     htmlWidget.value = this.htmlContent;
+                    // Trigger any change handlers
+                    if (htmlWidget.callback) {
+                        htmlWidget.callback(htmlWidget.value);
+                    }
                 }
-                
-                this.setDirtyCanvas?.(true, true);
             };
 
             nodeType.prototype.createHTMLNoteDisplay = function(content) {
@@ -303,12 +304,6 @@ app.registerExtension({
                 // Create container element
                 this.containerElement = document.createElement("div");
                 this.containerElement.className = "af-html-note-container";
-                this.containerElement.style.cssText = `
-                    position: relative;
-                    width: 100%;
-                    height: 100%;
-                    overflow: hidden;
-                `;
                 
                 // Create HTML display element
                 this.htmlNoteElement = document.createElement("div");
@@ -324,7 +319,7 @@ app.registerExtension({
                 this.containerElement.appendChild(this.htmlNoteElement);
                 this.containerElement.appendChild(this.editorElement);
                 
-                // Add click handler for entering edit mode
+                // Add click handler for entering edit mode - only on content area
                 this.htmlNoteElement.addEventListener('click', (e) => {
                     // Don't enter edit mode if clicking on a link
                     if (e.target.tagName.toLowerCase() === 'a') {
@@ -338,49 +333,24 @@ app.registerExtension({
                     this.enterEditMode();
                 });
 
-                // Handle middle mouse button to allow canvas panning
-                this.htmlNoteElement.addEventListener('mousedown', (e) => {
-                    if (e.button === 1) { // Middle mouse button
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Let the canvas handle this event instead
-                        const canvasEvent = new MouseEvent('mousedown', {
-                            bubbles: true,
-                            cancelable: true,
-                            button: e.button,
-                            buttons: e.buttons,
-                            clientX: e.clientX,
-                            clientY: e.clientY
-                        });
-                        app.canvas.canvas.dispatchEvent(canvasEvent);
-                    }
-                });
-
-                this.editorElement.addEventListener('mousedown', (e) => {
-                    if (e.button === 1) { // Middle mouse button
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Let the canvas handle this event instead
-                        const canvasEvent = new MouseEvent('mousedown', {
-                            bubbles: true,
-                            cancelable: true,
-                            button: e.button,
-                            buttons: e.buttons,
-                            clientX: e.clientX,
-                            clientY: e.clientY
-                        });
-                        app.canvas.canvas.dispatchEvent(canvasEvent);
-                    }
-                });
-
                 // Handle editor events
                 this.editorElement.addEventListener('keydown', (e) => {
                     e.stopPropagation(); // Prevent ComfyUI from handling these
+                    
+                    // Exit edit mode on Escape
+                    if (e.key === 'Escape') {
+                        this.exitEditMode();
+                        e.preventDefault();
+                    }
                 });
 
                 this.editorElement.addEventListener('blur', (e) => {
-                    // Don't exit edit mode on blur - only on explicit actions
-                    e.stopPropagation();
+                    // Exit edit mode when editor loses focus
+                    setTimeout(() => {
+                        if (this.isEditMode && document.activeElement !== this.editorElement) {
+                            this.exitEditMode();
+                        }
+                    }, 10);
                 });
 
                 this.handleLinksInHTML();
@@ -395,76 +365,6 @@ app.registerExtension({
                 return this.htmlNoteWidget;
             };
 
-            // Override mouse handling
-            nodeType.prototype.onMouseDown = function(e, localPos, graphCanvas) {
-                // If clicking outside the node content area, exit edit mode
-                if (this.isEditMode && e.button === 0) {
-                    const rect = this.getBounding();
-                    const canvasPos = graphCanvas.convertOffsetToCanvas([e.clientX, e.clientY]);
-                    
-                    // Check if click is outside the node bounds
-                    if (canvasPos[0] < rect[0] || canvasPos[0] > rect[0] + rect[2] ||
-                        canvasPos[1] < rect[1] || canvasPos[1] > rect[1] + rect[3]) {
-                        this.exitEditMode();
-                    }
-                }
-                
-                // Allow middle mouse for canvas panning
-                if (e.button === 1) {
-                    return false;
-                }
-                
-                return true;
-            };
-
-            // Handle canvas clicks to exit edit mode
-            const originalOnCanvasMouseDown = app.canvas.onMouseDown;
-            app.canvas.onMouseDown = function(e) {
-                // Find any nodes in edit mode and exit them when clicking on canvas
-                if (app.graph) {
-                    for (const node of app.graph._nodes) {
-                        if (node.type === "AF_Enhanced_HTML_Note" && node.isEditMode) {
-                            // Check if click is outside this node
-                            const rect = node.getBounding();
-                            const canvasPos = this.convertOffsetToCanvas([e.clientX, e.clientY]);
-                            
-                            if (canvasPos[0] < rect[0] || canvasPos[0] > rect[0] + rect[2] ||
-                                canvasPos[1] < rect[1] || canvasPos[1] > rect[1] + rect[3]) {
-                                node.exitEditMode();
-                            }
-                        }
-                    }
-                }
-                
-                return originalOnCanvasMouseDown?.call(this, e);
-            };
-
-            // Override serialize to maintain size
-            const originalSerialize = nodeType.prototype.serialize;
-            nodeType.prototype.serialize = function() {
-                const data = originalSerialize ? originalSerialize.apply(this, arguments) : {};
-                
-                // Store the current size
-                if (this.size) {
-                    data.size = [this.size[0], this.size[1]];
-                }
-                
-                return data;
-            };
-
-            // Override configure to restore size
-            const originalConfigure = nodeType.prototype.configure;
-            nodeType.prototype.configure = function(info) {
-                if (originalConfigure) {
-                    originalConfigure.apply(this, arguments);
-                }
-                
-                // Restore size if it was saved
-                if (info.size) {
-                    this.size = [info.size[0], info.size[1]];
-                }
-            };
-
             // Display initial content on node creation
             const onNodeCreated = nodeType.prototype.onNodeCreated;
             nodeType.prototype.onNodeCreated = function() {
@@ -472,8 +372,8 @@ app.registerExtension({
                 
                 this.isEditMode = false;
                 
-                // Set initial larger size
-                this.size = [500, 400];
+                // Set a reasonable default size
+                this.size = [400, 300];
                 
                 // Hide the original input widget completely
                 setTimeout(() => {
@@ -487,22 +387,8 @@ app.registerExtension({
                         
                         // Create our custom display
                         this.createHTMLNoteDisplay(htmlWidget.value);
-                        
-                        // Force size update
-                        this.setSize(this.size);
                     }
                 }, 0);
-            };
-
-            // Handle Escape key globally for this node type
-            const originalOnKeyDown = nodeType.prototype.onKeyDown;
-            nodeType.prototype.onKeyDown = function(e) {
-                if (e.key === 'Escape' && this.isEditMode) {
-                    this.exitEditMode();
-                    return true; // Handled
-                }
-                
-                return originalOnKeyDown ? originalOnKeyDown.call(this, e) : false;
             };
         }
     }
