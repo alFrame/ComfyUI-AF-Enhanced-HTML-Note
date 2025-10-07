@@ -67,7 +67,7 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
     <p>Custom styled content...</p>
 </div>
 ```
-# 📐 Spacers
+## 📐 Spacers
 ```html
 <!-- Small spacer -->
 <div class="af-spacer-small"></div>
@@ -95,7 +95,7 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 <!-- JavaScript links -->
 <a href="javascript:alert('Hello!')">JavaScript link</a>
 ```
-# 📋 Complete Example Template
+## 📋 Complete Example Template
 ```html
 <div class="af-section af-positive">
     <h2>🟢 Positive Prompts</h2>
@@ -151,7 +151,7 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
     <p><small>Last updated: Today | Created with AF Enhanced HTML Node</small></p>
 </div>
 ```
-🛠️ Installation
+## 🛠️ Installation
 Create folder: ComfyUI/custom_nodes/ComfyUI-AF_Enhanced_HTML_Note/
 
 Add the Python file: AF_Enhanced_HTML_Note.py
@@ -166,7 +166,7 @@ Restart ComfyUI
 
 Find the node under AF - Nodes > AF - Enhanced HTML Note
 
-🔧 Technical Details
+## 🔧 Technical Details
 Node Name: AF_Enhanced_HTML_Note
 
 Category: AF - Nodes
@@ -177,7 +177,7 @@ Output: None (display only)
 
 Compatibility: ComfyUI latest version
 
-🐛 Troubleshooting
+## 🐛 Troubleshooting
 Node won't select/move?
 
 Click on the node's title bar or edges, not the HTML content area
@@ -194,7 +194,7 @@ Scrollbar appears unnecessarily?
 
 The node has minimal padding; resize if you need more space
 
-📞 Support
+## 📞 Support
 Creator: Alex Furer
 
 Co-Creators: Claude AI & DeepSeek
