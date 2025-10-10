@@ -6,7 +6,7 @@
 #
 # LICENSE: MIT License
 #
-# v0.0.04
+# v0.0.05
 #
 # Description:
 # A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
@@ -15,6 +15,8 @@
 # Read Me on Github
 #
 # Changelog:
+# v0.0.05
+# - Made edit mode less intrusive and keep ComfyUI canvas navigation (panning, zooming [space bar] and [H] now work to pan around the canvas)
 # v0.0.04
 # - Fixed node selection and resizing by removing OUTPUT_NODE and using proper widget approach
 # - Double clicking is now used to edit the html
