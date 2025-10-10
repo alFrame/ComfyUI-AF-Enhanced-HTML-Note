@@ -27,25 +27,43 @@ const AF_HTML_NOTE_STYLES = `
         height: 100%;
         overflow-y: auto;
         flex: 1;
-        /* NO pointer-events here - let ComfyUI handle interactions */
+		/* Prevent text selection */
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		cursor: default;
+		/* Prevent keyboard focus */
+		outline: none;
     }
 
-    .af-html-note-editor {
-        width: 100%;
-        height: 100%;
-        background: var(--comfy-menu-bg, #2a2a2a);
-        border: 1px solid var(--border-color, #555);
-        padding: 8px;
-        font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-        line-height: 1.4;
-        color: var(--input-text, #ffffff);
-        box-sizing: border-box;
-        resize: none;
-        outline: none;
-        font-size: 14px;
-        display: none;
-        flex: 1;
-    }
+	/* Ensure content area can't be focused */
+	.af-html-note-content:focus {
+		outline: none;
+	}
+
+	.af-html-note-editor {
+		width: 100%;
+		height: 100%;
+		background: var(--comfy-menu-bg, #2a2a2a);
+		border: 1px solid var(--border-color, #555);
+		padding: 8px;
+		font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+		line-height: 1.4;
+		color: var(--input-text, #ffffff);
+		box-sizing: border-box;
+		resize: none;
+		outline: none;
+		font-size: 14px;
+		display: none;
+		flex: 1;
+		/* Add text selection capabilities */
+		user-select: auto;
+		-webkit-user-select: auto;
+		-moz-user-select: auto;
+		-ms-user-select: auto;
+		cursor: text;
+	}
 
     /* Floating edit button */
     .af-floating-edit-btn {
@@ -363,7 +381,10 @@ app.registerExtension({
 						e.stopPropagation();
 					}
 				});
-
+				
+				// Comment
+				this.contentElement.setAttribute('tabindex', '-1');
+				
 				this.editorElement.addEventListener('blur', () => {
 					setTimeout(() => {
 						if (this.isEditMode && document.activeElement !== this.editorElement) {
@@ -371,7 +392,15 @@ app.registerExtension({
 						}
 					}, 10);
 				});
-
+				
+				this.contentElement.addEventListener('mousedown', (e) => {
+					// Prevent the content area from getting focus on click
+					e.preventDefault();
+					
+					// But don't stop propagation - let ComfyUI handle node selection
+					// Only prevent the default focus behavior
+				});
+				
 				// Add as DOM widget
 				this.addDOMWidget("html_note_display", "div", this.containerElement);
 			};
@@ -410,24 +439,22 @@ app.registerExtension({
                 this.handleLinksInHTML();
             };
 
+			// Update the link handler to temporarily enable pointer events for links
 			nodeType.prototype.handleLinksInHTML = function() {
 				if (!this.contentElement) return;
 				
 				const links = this.contentElement.querySelectorAll('a');
 				links.forEach(link => {
-					// Remove any existing handlers
 					link.onclick = null;
 					
-					// Add clean, simple handler
 					link.addEventListener('click', (e) => {
-						// Only handle links when Ctrl is active
 						if (!document.body.classList.contains('af-ctrl-active')) {
 							e.preventDefault();
 							e.stopPropagation();
 							return false;
 						}
 						
-						// Ctrl is held - handle external links only
+						// Clean, simple link handling
 						if (link.href && 
 							!link.href.startsWith('javascript:') && 
 							!(link.href.startsWith('#') || link.href === '#')) {
@@ -435,13 +462,12 @@ app.registerExtension({
 							window.open(link.href, '_blank');
 						}
 						
-						// Stop propagation to ComfyUI
 						e.stopPropagation();
 						return false;
 					});
 				});
 			};
-
+			
             // Global Ctrl key handling
             let ctrlKeyActive = false;
 
