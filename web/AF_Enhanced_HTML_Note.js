@@ -5,217 +5,247 @@ import { app } from "../../scripts/app.js";
 // Define inline CSS styles
 const AF_HTML_NOTE_STYLES = `
     .af-html-note-container {
-        width: 100%;
-        height: 100%;
-        min-height: 100px;
-        background: var(--comfy-menu-bg, #2a2a2a);
-        border: 1px solid var(--border-color, #555);
-        padding: 8px; /* Reduced padding */
-        box-sizing: border-box;
-        overflow: hidden; /* Changed from auto to hidden */
-        cursor: default;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        line-height: 1.6;
-        color: var(--input-text, #ffffff);
-        display: flex;
-        flex-direction: column;
-    }
+	width: 100%;
+	height: 100%;
+	min-height: 100px;
+	background: var(--comfy-menu-bg, #2a2a2a);
+	border: 1px solid var(--border-color, #555);
+	padding: 8px; /* Reduced padding */
+	box-sizing: border-box;
+	overflow: hidden; /* Changed from auto to hidden */
+	cursor: default;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+	line-height: 1.6;
+	color: var(--input-text, #ffffff);
+	display: flex;
+	flex-direction: column;
+	}
 
-    .af-html-note-content {
-        width: 100%;
-        height: 100%;
-        /* Allow double-clicks for editing */
-        pointer-events: auto;
-        overflow-y: auto; /* Move scroll to content instead of container */
-        flex: 1;
-    }
+	.af-html-note-content {
+		width: 100%;
+		height: 100%;
+		/* Allow double-clicks for editing */
+		pointer-events: auto;
+		overflow-y: auto; /* Move scroll to content instead of container */
+		flex: 1;
+	}
 
-    .af-html-note-editor {
-        width: 100%;
-        height: 100%;
-        background: var(--comfy-menu-bg, #2a2a2a);
-        border: 1px solid var(--border-color, #555);
-        padding: 8px; /* Reduced padding to match container */
-        font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-        line-height: 1.4;
-        color: var(--input-text, #ffffff);
-        box-sizing: border-box;
-        resize: none;
-        outline: none;
-        font-size: 14px;
-        display: none;
-        pointer-events: auto;
-        flex: 1;
-    }
+	.af-html-note-editor {
+		width: 100%;
+		height: 100%;
+		background: var(--comfy-menu-bg, #2a2a2a);
+		border: 1px solid var(--border-color, #555);
+		padding: 8px; /* Reduced padding to match container */
+		font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+		line-height: 1.4;
+		color: var(--input-text, #ffffff);
+		box-sizing: border-box;
+		resize: none;
+		outline: none;
+		font-size: 14px;
+		display: none;
+		pointer-events: auto;
+		flex: 1;
+	}
 
-    /* Enable link interactions only when Ctrl is held */
-    .af-html-note-content a {
-        color: #58a6ff;
-        text-decoration: none;
-        /* Links are not clickable by default */
-        pointer-events: none;
-    }
+	/* Enable link interactions only when Ctrl is held */
+	.af-html-note-content a {
+		color: #58a6ff;
+		text-decoration: none;
+		/* Links are not clickable by default */
+		pointer-events: none;
+	}
 
-    body.af-ctrl-active .af-html-note-content a {
-        /* Links become clickable when Ctrl is held */
-        pointer-events: auto;
-        cursor: pointer;
-    }
+	body.af-ctrl-active .af-html-note-content a {
+		/* Links become clickable when Ctrl is held */
+		pointer-events: auto;
+		cursor: pointer;
+	}
 
-    body.af-ctrl-active .af-html-note-content a:hover {
-        color: #79c0ff;
-        text-decoration: underline;
-    }
+	body.af-ctrl-active .af-html-note-content a:hover {
+		color: #79c0ff;
+		text-decoration: underline;
+	}
 
-    .af-html-note-editor {
-        width: 100%;
-        height: 100%;
-        background: var(--comfy-menu-bg, #2a2a2a);
-        border: 1px solid var(--border-color, #555);
-        padding: 16px;
-        font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-        line-height: 1.4;
-        color: var(--input-text, #ffffff);
-        box-sizing: border-box;
-        resize: none;
-        outline: none;
-        font-size: 14px;
-        display: none;
-        pointer-events: auto;
-    }
+	.af-html-note-editor {
+		width: 100%;
+		height: 100%;
+		background: var(--comfy-menu-bg, #2a2a2a);
+		border: 1px solid var(--border-color, #555);
+		padding: 16px;
+		font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+		line-height: 1.4;
+		color: var(--input-text, #ffffff);
+		box-sizing: border-box;
+		resize: none;
+		outline: none;
+		font-size: 14px;
+		display: none;
+		pointer-events: auto;
+	}
 
-    .af-html-note-container.edit-mode .af-html-note-content {
-        display: none;
-    }
+	.af-html-note-container.edit-mode .af-html-note-content {
+		display: none;
+	}
 
-    .af-html-note-container.edit-mode .af-html-note-editor {
-        display: block;
-    }
+	.af-html-note-container.edit-mode .af-html-note-editor {
+		display: block;
+	}
 
-    /* Rest of your CSS remains exactly the same... */
-    .af-html-note-content h1, .af-html-note-content h2, .af-html-note-content h3, 
-    .af-html-note-content h4, .af-html-note-content h5, .af-html-note-content h6 {
-        margin-top: 0;
-        margin-bottom: 12px;
-        font-weight: 600;
-    }
+	/* Rest of your CSS remains exactly the same... */
+	.af-html-note-content h1, .af-html-note-content h2, .af-html-note-content h3, 
+	.af-html-note-content h4, .af-html-note-content h5, .af-html-note-content h6 {
+		margin-top: 0;
+		margin-bottom: 12px;
+		font-weight: 600;
+	}
 
-    .af-html-note-content h1 { font-size: 1.5em; }
-    .af-html-note-content h2 { font-size: 1.3em; }
-    .af-html-note-content h3 { font-size: 1.1em; }
+	.af-html-note-content h1 { font-size: 1.5em; }
+	.af-html-note-content h2 { font-size: 1.3em; }
+	.af-html-note-content h3 { font-size: 1.1em; }
 
-    .af-html-note-content .af-section {
-        padding: 12px 16px;
-        margin: 8px 0;
-        border-radius: 6px;
-        border-left: 4px solid;
-    }
+	.af-html-note-content .af-section {
+		padding: 8px 16px;
+		margin: 8px 0;
+		border-radius: 6px;
+		border-left: 4px solid;
+	}
 
-    .af-html-note-content .af-section.af-positive {
-        background: rgba(144, 238, 144, 0.1);
-        border-left-color: #90EE90;
-    }
+	.af-html-note-content .af-section.af-positive {
+		background: rgba(144, 238, 144, 0.1);
+		border-left-color: #90EE90;
+	}
 
-    .af-html-note-content .af-section.af-negative {
-        background: rgba(255, 107, 107, 0.1);
-        border-left-color: #FF6B6B;
-    }
+	.af-html-note-content .af-section.af-negative {
+		background: rgba(255, 107, 107, 0.1);
+		border-left-color: #FF6B6B;
+	}
 
-    .af-html-note-content .af-section.af-neutral {
-        background: rgba(224, 224, 224, 0.1);
-        border-left-color: #E0E0E0;
-    }
+	.af-html-note-content .af-section.af-neutral {
+		background: rgba(224, 224, 224, 0.1);
+		border-left-color: #E0E0E0;
+	}
 
-    .af-html-note-content .af-section.af-info {
-        background: rgba(135, 206, 235, 0.1);
-        border-left-color: #87CEEB;
-    }
+	.af-html-note-content .af-section.af-info {
+		background: rgba(135, 206, 235, 0.1);
+		border-left-color: #87CEEB;
+	}
 
-    .af-html-note-content .af-section.af-warning {
-        background: rgba(255, 215, 0, 0.1);
-        border-left-color: #FFD700;
-    }
+	.af-html-note-content .af-section.af-warning {
+		background: rgba(255, 128, 0, 0.1);
+		border-left-color: #FFD700;
+	}
 
-    .af-html-note-content .af-section.af-custom {
-        background: rgba(186, 85, 211, 0.1);
-        border-left-color: #BA55D3;
-    }
+	.af-html-note-content .af-section.af-yellow {
+		background: rgba(255, 128, 0, 0.1);
+		border-left-color: #FFD700;
+	}
 
-    .af-html-note-content .af-spacer { height: 16px; margin: 8px 0; }
-    .af-html-note-content .af-spacer-small { height: 8px; margin: 4px 0; }
-    .af-html-note-content .af-spacer-large { height: 32px; margin: 16px 0; }
-    .af-html-note-content .af-spacer-xl { height: 48px; margin: 24px 0; }
+	.af-html-note-content .af-section.af-blue {
+		background: rgba(102, 105, 255, 0.1);
+		border-left-color: #000099;
+	}
 
-    .af-html-note-content code {
-        background: rgba(0,0,0,0.3);
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-        font-size: 0.9em;
-        color: #f0f6fc;
-    }
+	.af-html-note-content .af-section.af-custom {
+		background: rgba(186, 85, 211, 0.1);
+		border-left-color: #BA55D3;
+	}
 
-    .af-html-note-content pre {
-        background: rgba(0,0,0,0.4);
-        border: 1px solid #444;
-        border-radius: 6px;
-        padding: 12px;
-        margin: 16px 0;
-        overflow-x: auto;
-    }
+	.af-html-note-content .af-spacer-top { height: 2px; margin: 4px 0; }
+	.af-html-note-content .af-spacer-mini { height: 4px; margin: 4px 0; }
+	.af-html-note-content .af-spacer-small { height: 8px; margin: 4px 0; }
+	.af-html-note-content .af-spacer { height: 16px; margin: 8px 0; }
+	.af-html-note-content .af-spacer-large { height: 32px; margin: 16px 0; }
+	.af-html-note-content .af-spacer-xl { height: 48px; margin: 24px 0; }
 
-    .af-html-note-content pre code {
-        background: transparent;
-        padding: 0;
-    }
+	.af-html-note-content code {
+		background: rgba(0,0,0,0.3);
+		padding: 2px 6px;
+		border-radius: 4px;
+		font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+		font-size: 0.9em;
+		color: #f0f6fc;
+	}
 
-    .af-html-note-content ul, .af-html-note-content ol {
-        padding-left: 20px;
-        margin: 12px 0;
-    }
+	.af-html-note-content pre {
+		background: rgba(0,0,0,0.4);
+		border: 1px solid #444;
+		border-radius: 6px;
+		padding: 12px;
+		margin: 16px 0;
+		overflow-x: auto;
+	}
 
-    .af-html-note-content li { margin: 4px 0; }
-    .af-html-note-content p { margin: 8px 0; }
+	.af-html-note-content pre code {
+		background: transparent;
+		padding: 0;
+	}
 
-    .af-html-note-content table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 16px 0;
-    }
+	.af-html-note-content ul, .af-html-note-content ol {
+		padding-left: 20px;
+		margin: 12px 0;
+	}
 
-    .af-html-note-content th, .af-html-note-content td {
-        border: 1px solid var(--border-color, #555);
-        padding: 8px 12px;
-        text-align: left;
-    }
+	.af-html-note-content li { margin: 4px 0; }
+	.af-html-note-content p { margin: 8px 0; }
 
-    .af-html-note-content th {
-        background: rgba(255,255,255,0.1);
-        font-weight: 600;
-    }
+	.af-html-note-content table {
+		border-collapse: collapse;
+		width: 100%;
+		margin: 16px 0;
+	}
 
-    .af-html-note-content hr {
-        border: none;
-        border-top: 1px solid var(--border-color, #555);
-        margin: 16px 0;
-        opacity: 0.6;
-    }
+	.af-html-note-content th, .af-html-note-content td {
+		border: 1px solid var(--border-color, #555);
+		padding: 8px 12px;
+		text-align: left;
+	}
 
-    .af-html-note-container::-webkit-scrollbar { width: 8px; }
-    .af-html-note-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-    .af-html-note-container::-webkit-scrollbar-thumb { 
-        background: var(--border-color, #555); 
-        border-radius: 4px; 
-    }
-    .af-html-note-container::-webkit-scrollbar-thumb:hover { background: #777; }
+	.af-html-note-content th {
+		background: rgba(255,255,255,0.1);
+		font-weight: 600;
+	}
 
-    .af-html-note-editor::-webkit-scrollbar { width: 8px; }
-    .af-html-note-editor::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-    .af-html-note-editor::-webkit-scrollbar-thumb { 
-        background: var(--border-color, #555); 
-        border-radius: 4px; 
-    }
-    .af-html-note-editor::-webkit-scrollbar-thumb:hover { background: #777; }
+	.af-html-note-content hr {
+		border: none;
+		border-top: 1px solid var(--border-color, #555);
+		margin: 16px 0;
+		opacity: 0.6;
+	}
+
+	.af-html-note-container::-webkit-scrollbar { width: 8px; }
+	.af-html-note-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+	.af-html-note-container::-webkit-scrollbar-thumb { 
+		background: var(--border-color, #555); 
+		border-radius: 4px; 
+	}
+	.af-html-note-container::-webkit-scrollbar-thumb:hover { background: #777; }
+
+	.af-html-note-editor::-webkit-scrollbar { width: 8px; }
+	.af-html-note-editor::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+	.af-html-note-editor::-webkit-scrollbar-thumb { 
+		background: var(--border-color, #555); 
+		border-radius: 4px; 
+	}
+	.af-html-note-editor::-webkit-scrollbar-thumb:hover { background: #777; }
+
+	/* ****** MY OWN STYLES ****** */
+	.af-column-half-left {
+	  box-sizing: border-box;
+	  float: left;
+	  width: 49%;
+	  margin-right: 1% !important;
+	}
+	.af-column-half-right {
+	  box-sizing: border-box;
+	  float: left;
+	  width: 49%;
+	  margin-left: 1% !important;
+	}
+	.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
 `;
 
 // Inject styles
