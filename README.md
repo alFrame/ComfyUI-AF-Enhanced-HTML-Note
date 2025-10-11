@@ -331,12 +331,12 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 </div>
 ```
 
+**Remember:** Hold **Ctrl** while clicking any link to activate it!
+
 </details>
 
 ### Rendered Result:
 ![Link Examples](examples/links.png)
-
-**Remember:** Hold **Ctrl** while clicking any link to activate it!
 
 ### Supported Link Types:
 - ✅ **External URLs** (`https://`, `http://`) - Open in new tab
