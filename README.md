@@ -347,6 +347,15 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 - ❌ **JavaScript links** (`javascript:`) - Blocked for security
 - ❌ **onclick handlers** - Ignored for security
 
+### Security Restrictions:
+- **No JavaScript execution** - All JavaScript is blocked for security
+- **No `<script>` tags** - Script tags are not executed
+- **No external scripts** - Cannot load external JavaScript files
+- **Ctrl+Click required** - All link interactions require Control key
+- **Safe HTML only** - Only styling and navigation features are supported
+- **No DOM manipulation** - JavaScript cannot modify the HTML content
+- **No browser storage** - `localStorage` and `sessionStorage` are blocked
+
 </details>
 
 ---
@@ -364,52 +373,6 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 - **Tables**: Full table support with styling
 - **Horizontal rules**: `<hr>` for dividers
 - **Code blocks**: `<code>` and `<pre>` tags
-
----
-
-## ⚠️ JavaScript Limitations
-
-JavaScript functionality is limited for security. It **only works on `<a>` (link) elements** and **only when Ctrl+Click is used**.
-
-### ✅ What Works (with Ctrl+Click on links):
-```html
-<!-- ✅ Alert dialogs -->
-<a href="#" onclick="alert('Hello!')">Alert on click</a>
-
-<!-- ✅ Console logging -->
-<a href="#" onclick="console.log('Debug info')">Log to console</a>
-
-<!-- ✅ Confirmation dialogs -->
-<a href="javascript:confirm('Are you sure?')">Confirmation dialog</a>
-
-<!-- ✅ Multiple statements -->
-<a href="#" onclick="alert('First'); console.log('Second')">Multiple actions</a>
-```
-
-### ❌ What Doesn't Work:
-```html
-<!-- ❌ JavaScript links are blocked -->
-<a href="javascript:alert('Hello')">JavaScript link</a>
-
-<!-- ❌ onclick handlers are ignored -->
-<a href="#" onclick="alert('This wont work')">Alert link</a>
-
-<!-- ❌ Script tags are ignored -->
-<script>console.log('Not executed')</script>
-
-<!-- ❌ Event handlers on other elements -->
-<button onclick="alert('No')">Won't work</button>
-<div onclick="alert('No')">Won't work</div>
-```
-
-### Security Restrictions:
-- **No JavaScript execution** - All JavaScript is blocked for security
-- **No `<script>` tags** - Script tags are not executed
-- **No external scripts** - Cannot load external JavaScript files
-- **Ctrl+Click required** - All link interactions require Control key
-- **Safe HTML only** - Only styling and navigation features are supported
-- **No DOM manipulation** - JavaScript cannot modify the HTML content
-- **No browser storage** - `localStorage` and `sessionStorage` are blocked
 
 ---
 
