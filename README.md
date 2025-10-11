@@ -333,10 +333,10 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 
 **Remember:** Hold **Ctrl** while clicking any link to activate it!
 
-</details>
-
 ### Rendered Result:
 ![Link Examples](examples/links.png)
+
+</details>
 
 ### Supported Link Types:
 - ✅ **External URLs** (`https://`, `http://`) - Open in new tab
