@@ -13,7 +13,7 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 - **Rich HTML Support** - Full HTML formatting with colored sections, lists, tables, code blocks, and more
 - **Non-Intrusive Design** - Doesn't interfere with normal ComfyUI workflow interactions
 - **Easy Editing** - Double-click anywhere on the content to edit HTML
-- **Smart Links** - Ctrl+click to open external links or trigger custom actions
+- **Smart Links** - Ctrl+click to open external links (JavaScript disabled for security)
 - **Beautiful Styling** - Predefined color schemes that match ComfyUI's theme
 - **Custom HTML Support** - Write your own HTML with inline styles
 - **No Dependencies** - All CSS is inlined for reliable performance
@@ -30,7 +30,7 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 ### Using Links
 - **Hold Control key + Click** on any link to activate it
 - External links open in new tabs
-- JavaScript actions and alerts work when Control is held
+- JavaScript execution is disabled for security
 
 ### Node Management
 - **Click and drag** the node title bar to move
@@ -320,17 +320,14 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
     <!-- External link (opens in new tab with Ctrl+click) -->
     <p><a href="https://github.com/comfyanonymous/ComfyUI">ComfyUI GitHub Repository</a></p>
     
-    <!-- Alert action (triggers with Ctrl+click) -->
-    <p><a href="#" onclick="alert('Custom action triggered!')">Click for alert</a></p>
+    <!-- Anchor link (page navigation with Ctrl+click) -->
+    <p><a href="#section-name">Jump to section</a></p>
     
-    <!-- Console log action -->
-    <p><a href="#" onclick="console.log('Debug message logged')">Log to console</a></p>
+    <!-- Mailto link (opens email client with Ctrl+click) -->
+    <p><a href="mailto:example@domain.com">Send Email</a></p>
     
-    <!-- Multiple actions -->
-    <p><a href="https://example.com" onclick="console.log('Link clicked')">Link with logging</a></p>
-    
-    <!-- JavaScript links -->
-    <p><a href="javascript:alert('Hello from JavaScript!')">JavaScript alert link</a></p>
+    <!-- Relative URL (opens in new tab with Ctrl+click) -->
+    <p><a href="docs/page.html">Documentation</a></p>
 </div>
 ```
 
@@ -338,6 +335,17 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 ![Link Examples](examples/links.png)
 
 **Remember:** Hold **Ctrl** while clicking any link to activate it!
+
+### Supported Link Types:
+- ✅ **External URLs** (`https://`, `http://`) - Open in new tab
+- ✅ **Anchor links** (`#section`) - Page navigation  
+- ✅ **Mailto links** (`mailto:`) - Open email client
+- ✅ **Tel links** (`tel:`) - Open phone app
+- ✅ **Relative URLs** - Open in new tab
+
+### Not Supported Link Types:
+- ❌ **JavaScript links** (`javascript:`) - Blocked for security
+- ❌ **onclick handlers** - Ignored for security
 
 </details>
 
@@ -356,6 +364,52 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 - **Tables**: Full table support with styling
 - **Horizontal rules**: `<hr>` for dividers
 - **Code blocks**: `<code>` and `<pre>` tags
+
+---
+
+## ⚠️ JavaScript Limitations
+
+JavaScript functionality is limited for security. It **only works on `<a>` (link) elements** and **only when Ctrl+Click is used**.
+
+### ✅ What Works (with Ctrl+Click on links):
+```html
+<!-- ✅ Alert dialogs -->
+<a href="#" onclick="alert('Hello!')">Alert on click</a>
+
+<!-- ✅ Console logging -->
+<a href="#" onclick="console.log('Debug info')">Log to console</a>
+
+<!-- ✅ Confirmation dialogs -->
+<a href="javascript:confirm('Are you sure?')">Confirmation dialog</a>
+
+<!-- ✅ Multiple statements -->
+<a href="#" onclick="alert('First'); console.log('Second')">Multiple actions</a>
+```
+
+### ❌ What Doesn't Work:
+```html
+<!-- ❌ JavaScript links are blocked -->
+<a href="javascript:alert('Hello')">JavaScript link</a>
+
+<!-- ❌ onclick handlers are ignored -->
+<a href="#" onclick="alert('This wont work')">Alert link</a>
+
+<!-- ❌ Script tags are ignored -->
+<script>console.log('Not executed')</script>
+
+<!-- ❌ Event handlers on other elements -->
+<button onclick="alert('No')">Won't work</button>
+<div onclick="alert('No')">Won't work</div>
+```
+
+### Security Restrictions:
+- **No JavaScript execution** - All JavaScript is blocked for security
+- **No `<script>` tags** - Script tags are not executed
+- **No external scripts** - Cannot load external JavaScript files
+- **Ctrl+Click required** - All link interactions require Control key
+- **Safe HTML only** - Only styling and navigation features are supported
+- **No DOM manipulation** - JavaScript cannot modify the HTML content
+- **No browser storage** - `localStorage` and `sessionStorage` are blocked
 
 ---
 
@@ -539,60 +593,6 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 
 ---
 
-## ⚠️ JavaScript Limitations
-
-JavaScript functionality is limited for security. It **only works on `<a>` (link) elements** and **only when Ctrl+Click is used**.
-
-### ✅ What Works (with Ctrl+Click on links):
-```html
-<!-- ✅ Alert dialogs -->
-<a href="#" onclick="alert('Hello!')">Alert on click</a>
-
-<!-- ✅ Console logging -->
-<a href="#" onclick="console.log('Debug info')">Log to console</a>
-
-<!-- ✅ Confirmation dialogs -->
-<a href="javascript:confirm('Are you sure?')">Confirmation dialog</a>
-
-<!-- ✅ Multiple statements -->
-<a href="#" onclick="alert('First'); console.log('Second')">Multiple actions</a>
-```
-
-### ❌ What Doesn't Work:
-```html
-<!-- ❌ Script tags are ignored -->
-<script>
-    console.log('This will not run');
-</script>
-
-<!-- ❌ onclick on non-link elements -->
-<button onclick="alert('No')">Won't work</button>
-<div onclick="alert('No')">Won't work</div>
-
-<!-- ❌ Auto-executing events -->
-<div onload="alert('Page loaded')">Won't fire</div>
-<body onload="init()">Won't fire</body>
-
-<!-- ❌ DOM manipulation -->
-<a href="#" onclick="document.getElementById('test').innerHTML = 'Changed'">
-    Can't modify other elements
-</a>
-
-<!-- ❌ Browser storage APIs -->
-<a href="#" onclick="localStorage.setItem('key', 'value')">
-    Storage APIs blocked
-</a>
-```
-
-### Security Restrictions:
-- **No `<script>` tags** - Script tags are not executed for security
-- **No external scripts** - Cannot load external JavaScript files
-- **Ctrl+Click required** - All link interactions require Control key
-- **No DOM manipulation** - JavaScript cannot modify the HTML content
-- **No browser storage** - `localStorage` and `sessionStorage` are blocked
-
----
-
 ## 📋 Complete Workflow Example
 
 <details>
@@ -609,7 +609,7 @@ JavaScript functionality is limited for security. It **only works on `<a>` (link
         <li>Photorealistic textures and materials</li>
         <li>Award-winning cinematography</li>
     </ul>
-    <a href="#" onclick="alert('Positive prompts copied to clipboard!')">📋 Copy Prompts</a>
+    <a href="https://example.com/prompts">📋 View Prompt Guide</a>
 </div>
 
 <div class="af-spacer"></div>
@@ -689,17 +689,14 @@ JavaScript functionality is limited for security. It **only works on `<a>` (link
 ### Links not working?
 **Solution:** Remember to hold the **Control key** while clicking links
 
+### JavaScript not working?
+**Solution:** JavaScript execution is disabled for security. Only standard navigation links work.
+
 ### Can't edit content?
 **Solution:** Double-click directly on the HTML content (not the node borders)
 
 ### Scrollbar appears unnecessarily?
 **Solution:** The node has minimal padding; resize if you need more space
-
-### JavaScript not working?
-**Solution:** 
-- Ensure you're holding **Ctrl** when clicking
-- Check that you're using `onclick` handlers on `<a>` tags
-- Remember that `<script>` tags don't execute for security
 
 ### Styling not applying?
 **Solution:**
@@ -753,7 +750,7 @@ JavaScript functionality is limited for security. It **only works on `<a>` (link
 |----------|--------|
 | **Double-click** | Enter edit mode |
 | **Escape** | Exit edit mode and save |
-| **Ctrl+Click** | Activate links and JavaScript actions |
+| **Ctrl+Click** | Activate links (JavaScript disabled) |
 
 ---
 

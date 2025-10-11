@@ -9,7 +9,7 @@ const AF_HTML_NOTE_STYLES = `
         height: 100%;
         min-height: 100px;
         background: var(--comfy-menu-bg, #2a2a2a);
-        border: 1px solid var(--border-color, #555);
+        /* border: 1px solid var(--border-color, #555); */
         padding: 8px;
         box-sizing: border-box;
         overflow: hidden;
@@ -439,27 +439,52 @@ app.registerExtension({
                 this.handleLinksInHTML();
             };
 
-			// Update the link handler to temporarily enable pointer events for links
+			// Updated link handler - REMOVED JavaScript execution
 			nodeType.prototype.handleLinksInHTML = function() {
 				if (!this.contentElement) return;
 				
 				const links = this.contentElement.querySelectorAll('a');
 				links.forEach(link => {
+					// Remove any existing onclick handlers to prevent JavaScript execution
 					link.onclick = null;
 					
 					link.addEventListener('click', (e) => {
+						// Only allow clicks when Ctrl is held
 						if (!document.body.classList.contains('af-ctrl-active')) {
 							e.preventDefault();
 							e.stopPropagation();
 							return false;
 						}
 						
-						// Clean, simple link handling
-						if (link.href && 
-							!link.href.startsWith('javascript:') && 
-							!(link.href.startsWith('#') || link.href === '#')) {
-							e.preventDefault();
-							window.open(link.href, '_blank');
+						const href = link.getAttribute('href');
+						
+						// Handle different types of links
+						if (href) {
+							// External URLs and anchor links - open in new tab
+							if (href.startsWith('http://') || 
+								href.startsWith('https://') ||
+								href.startsWith('mailto:') ||
+								href.startsWith('tel:')) {
+								e.preventDefault();
+								window.open(href, '_blank');
+							}
+							// Internal anchor links (page navigation) - let browser handle
+							else if (href.startsWith('#') || href === '#') {
+								// Allow default behavior for anchor links
+								// They will navigate within the same page
+							}
+							// JavaScript links - BLOCK for security
+							else if (href.startsWith('javascript:')) {
+								e.preventDefault();
+								e.stopPropagation();
+								console.warn('AF HTML Note: JavaScript links are disabled for security');
+								return false;
+							}
+							// Relative URLs and other links - open in new tab
+							else {
+								e.preventDefault();
+								window.open(href, '_blank');
+							}
 						}
 						
 						e.stopPropagation();

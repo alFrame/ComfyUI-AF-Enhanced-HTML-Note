@@ -6,7 +6,7 @@
 #
 # LICENSE: MIT License
 #
-# v0.0.05
+# v0.0.06
 #
 # Description:
 # A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
@@ -15,22 +15,12 @@
 # Read Me on Github
 #
 # Changelog:
-# v0.0.05
-# - Made edit mode less intrusive and keep ComfyUI canvas navigation (panning, zooming [space bar] and [H] now work to pan around the canvas)
-# v0.0.04
-# - Fixed node selection and resizing by removing OUTPUT_NODE and using proper widget approach
-# - Double clicking is now used to edit the html
-# - Mouse interaction is now persistent to ComfyUI behavior. Except middle mouse button for panning.
-# v0.0.03
-# - Fixed node resizing issues on save/reload
-# - Improved selection and edit mode behavior to match ComfyUI core notes
-# - Fixed middle mouse button panning over the node
-# - Improved HTML indentation in default content
-# v0.0.02
-# - Fixed naming consistency to HTML_Note
-# - Implemented single-window toggle behavior
-# v0.0.01
-# - Initial Version
+# "v0.0.06 - Removed all Java Script functionality for links and updated README",
+# "v0.0.05 - Made edit mode less intrusive and keep ComfyUI canvas navigation (panning, zooming [space bar] and [H] now work to pan around the canvas)",
+# "v0.0.04 - Fixed node selection and resizing by removing OUTPUT_NODE and using proper widget approach. Double clicking is now used to edit the html Mouse interaction is now persistent to ComfyUI behavior. Except middle mouse button for panning.",
+# "v0.0.03 - Fixed node resizing issues on save/reload. Improved selection and edit mode behavior to match ComfyUI core notes. Fixed middle mouse button panning over the node. Improved HTML indentation in default content",
+# "v0.0.02 - Fixed naming consistency to HTML_Note Implemented single-window toggle behavior",
+# "v0.0.01 - Initial Version"
 #
 
 class AF_Enhanced_HTML_Note:
@@ -137,20 +127,12 @@ class AF_Enhanced_HTML_Note:
 <div class="af-section af-info">
 	<h3>🔗 Interactive Links</h3>
 	
-	<!-- External link (opens in new tab with Ctrl+click) -->
+	<!-- External links (opens in new tab with Ctrl+click) -->
+	<h4>External link (opens in new tab with Ctrl+click)</h4>
 	<p><a href="https://www.fullframestudios.ch/">Full Frame Studios - Alex Furer</a></p>
 	
-	<!-- Alert action (triggers with Ctrl+click) -->
-	<p><a href="https://www.fullframestudios.ch/" onclick="alert('Custom action triggered!')">Click for alert</a></p>
-	
-	<!-- Console log action -->
-	<p><a href="https://www.fullframestudios.ch/" onclick="console.log('Debug message logged')">Log to console</a></p>
-	
-	<!-- Multiple actions -->
-	<p><a href="https://www.fullframestudios.ch/" onclick="console.log('Link clicked')">Link with logging</a></p>
-	
-	<!-- JavaScript links -->
-	<p><a href="javascript:alert('Hello from JavaScript!')">JavaScript alert link</a></p>
+	<h4>Anchor Links</h4>
+	<p><a href="https://www.fullframestudios.ch/#ThreeDee">Full Frame Studios - Alex Furer - 3D</a></p>
 </div>
 
 <h2>Custom Info Cards</h2>
