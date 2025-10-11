@@ -2,14 +2,16 @@
 #
 # Creator: Alex Furer - Co-Creator(s): Claude AI & DeepSeek
 #
-# Praise, comment, bugs, improvements: https://github.com/alFrame/ComfyUI_AF_FindNodeByID
+# Description:
+# A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
+#
+# Repo and ReadMe URL: https://github.com/alFrame/ComfyUI-AF-Find-Nodes
+#
+# Praise, comment, bugs, improvements: https://github.com/alFrame/ComfyUI-AF-Find-Nodes/issues
 #
 # LICENSE: MIT License
 #
 # v0.0.06
-#
-# Description:
-# A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
 #
 # Usage:
 # Read Me on Github
@@ -22,6 +24,8 @@
 # "v0.0.02 - Fixed naming consistency to HTML_Note Implemented single-window toggle behavior",
 # "v0.0.01 - Initial Version"
 #
+# Feature Requests / Wet Dreams
+# -
 
 class AF_Enhanced_HTML_Note:
     """
