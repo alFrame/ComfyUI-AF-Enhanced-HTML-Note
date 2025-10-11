@@ -331,6 +331,8 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 </div>
 ```
 
+</details>
+
 ### Rendered Result:
 ![Link Examples](examples/links.png)
 
@@ -355,8 +357,6 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 - **Safe HTML only** - Only styling and navigation features are supported
 - **No DOM manipulation** - JavaScript cannot modify the HTML content
 - **No browser storage** - `localStorage` and `sessionStorage` are blocked
-
-</details>
 
 ---
 
