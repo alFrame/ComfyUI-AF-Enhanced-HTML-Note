@@ -60,7 +60,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Positive Section Example](examples/positive-section.png)
+![Positive Section Example](examples/positive-section.webp)
 
 </details>
 
@@ -77,7 +77,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Negative Section Example](examples/negative-section.png)
+![Negative Section Example](examples/negative-section.webp)
 
 </details>
 
@@ -98,7 +98,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Neutral Section Example](examples/neutral-section.png)
+![Neutral Section Example](examples/neutral-section.webp)
 
 </details>
 
@@ -115,7 +115,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Info Section Example](examples/info-section.png)
+![Info Section Example](examples/info-section.webp)
 
 </details>
 
@@ -136,7 +136,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Warning Section Example](examples/warning-section.png)
+![Warning Section Example](examples/warning-section.webp)
 
 </details>
 
@@ -152,7 +152,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Yellow Section Example](examples/yellow-section.png)
+![Yellow Section Example](examples/yellow-section.webp)
 
 </details>
 
@@ -168,7 +168,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Blue Section Example](examples/blue-section.png)
+![Blue Section Example](examples/blue-section.webp)
 
 </details>
 
@@ -184,7 +184,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Custom Section Example](examples/custom-section.png)
+![Custom Section Example](examples/custom-section.webp)
 
 </details>
 
@@ -233,7 +233,7 @@ Use these spacer classes to control vertical spacing between elements.
 ```
 
 ### Rendered Result:
-![Spacer Examples](examples/spacers.png)
+![Spacer Examples](examples/spacers.webp)
 
 ### Size Reference:
 - `af-spacer-top` → 2px
@@ -297,7 +297,7 @@ Create two-column layouts using the predefined column classes.
 ```
 
 ### Rendered Result:
-![Two Column Layout Example](examples/two-column-layout.png)
+![Two Column Layout Example](examples/two-column-layout.webp)
 
 **Note:** The `row` class ensures proper column wrapping, and each column is 49% width with 1% margin.
 
@@ -334,7 +334,7 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 **Remember:** Hold **Ctrl** while clicking any link to activate it!
 
 ### Rendered Result:
-![Link Examples](examples/links.png)
+![Link Examples](examples/links.webp)
 
 </details>
 
@@ -402,7 +402,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Spacers](examples/custom-spacers.png)
+![Custom Spacers](examples/custom-spacers.webp)
 
 </details>
 
@@ -431,7 +431,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Colors](examples/custom-colors.png)
+![Custom Colors](examples/custom-colors.webp)
 
 </details>
 
@@ -464,7 +464,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Text Styles](examples/custom-text.png)
+![Custom Text Styles](examples/custom-text.webp)
 
 </details>
 
@@ -493,7 +493,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Borders](examples/custom-borders.png)
+![Custom Borders](examples/custom-borders.webp)
 
 </details>
 
@@ -522,7 +522,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Layouts](examples/custom-layouts.png)
+![Custom Layouts](examples/custom-layouts.webp)
 
 </details>
 
@@ -550,7 +550,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Info Cards](examples/custom-cards.png)
+![Custom Info Cards](examples/custom-cards.webp)
 
 </details>
 
@@ -623,7 +623,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Complete Workflow Example](examples/complete-workflow.png)
+![Complete Workflow Example](examples/complete-workflow.webp)
 
 </details>
 
