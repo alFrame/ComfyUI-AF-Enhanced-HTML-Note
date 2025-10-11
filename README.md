@@ -1,6 +1,12 @@
-# AF Enhanced HTML Node - Usage Guide
+# AF Enhanced HTML Node - Complete Usage Guide
 
 A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's directly inside the workflow using rich HTML formatting.
+
+![Version](https://img.shields.io/badge/version-0.0.5-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![ComfyUI](https://img.shields.io/badge/ComfyUI-Compatible-orange)
+
+---
 
 ## ✨ Key Features
 
@@ -9,7 +15,10 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 - **Easy Editing** - Double-click anywhere on the content to edit HTML
 - **Smart Links** - Ctrl+click to open external links or trigger custom actions
 - **Beautiful Styling** - Predefined color schemes that match ComfyUI's theme
+- **Custom HTML Support** - Write your own HTML with inline styles
 - **No Dependencies** - All CSS is inlined for reliable performance
+
+---
 
 ## 🎮 Interaction Guide
 
@@ -28,74 +37,16 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 - **Drag edges/corners** to resize
 - **Middle mouse button** works for canvas panning (like other nodes)
 
-## 🎨 Basic Section Colors
+---
 
-```html
-<!-- Positive section (green) -->
-<div class="af-section af-positive">
-    <h2>🟢 Positive Prompts</h2>
-    <p>Your positive prompts go here...</p>
-</div>
+## 🎨 Predefined Section Colors
 
-<!-- Negative section (red) -->
-<div class="af-section af-negative">
-    <h2>🔴 Negative Prompts</h2>
-    <p>Your negative prompts go here...</p>
-</div>
+The node comes with several predefined colored section styles. Click each section below to see the code and rendered example.
 
-<!-- Neutral section (gray) -->
-<div class="af-section af-neutral">
-    <h3>📝 Notes</h3>
-    <p>General notes and information...</p>
-</div>
+<details>
+<summary><b>🟢 Positive Section (Green)</b></summary>
 
-<!-- Info section (blue) -->
-<div class="af-section af-info">
-    <h3>ℹ️ Information</h3>
-    <p>Important information...</p>
-</div>
-
-<!-- Warning section (yellow) -->
-<div class="af-section af-warning">
-    <h3>⚠️ Warning</h3>
-    <p>Warning or caution messages...</p>
-</div>
-
-<!-- Custom section (purple) -->
-<div class="af-section af-custom">
-    <h3>🎨 Custom</h3>
-    <p>Custom styled content...</p>
-</div>
-```
-## 📐 Spacers
-```html
-<!-- Small spacer -->
-<div class="af-spacer-small"></div>
-
-<!-- Regular spacer -->
-<div class="af-spacer"></div>
-
-<!-- Large spacer -->
-<div class="af-spacer-large"></div>
-
-<!-- Extra large spacer -->
-<div class="af-spacer-xl"></div>
-
-#🔗 Clickable Links & Actions
-
-<!-- External link (opens in new tab with Ctrl+click) -->
-<a href="https://github.com/comfyanonymous/ComfyUI">ComfyUI GitHub</a>
-
-<!-- Alert action (triggers with Ctrl+click) -->
-<a href="#" onclick="alert('Custom action triggered!')">Click for alert</a>
-
-<!-- Multiple actions -->
-<a href="https://example.com" onclick="console.log('Link clicked')">Link with multiple actions</a>
-
-<!-- JavaScript links -->
-<a href="javascript:alert('Hello!')">JavaScript link</a>
-```
-## 📋 Complete Example Template
+### Code:
 ```html
 <div class="af-section af-positive">
     <h2>🟢 Positive Prompts</h2>
@@ -105,30 +56,76 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
         <li>Sharp focus</li>
         <li>8K resolution</li>
     </ul>
-    <a href="#" onclick="alert('Positive prompts copied!')">📋 Copy Prompts</a>
 </div>
+```
 
-<div class="af-spacer"></div>
+### Rendered Result:
+![Positive Section Example](examples/positive-section.png)
 
+</details>
+
+<details>
+<summary><b>🔴 Negative Section (Red)</b></summary>
+
+### Code:
+```html
 <div class="af-section af-negative">
     <h2>🔴 Negative Prompts</h2>
     <p><em>low quality, blurry, distorted</em></p>
-    <code>nsfw, watermark, signature, bad anatomy</code>
+    <p><code>nsfw, watermark, signature, bad anatomy</code></p>
 </div>
+```
 
-<div class="af-spacer-large"></div>
+### Rendered Result:
+![Negative Section Example](examples/negative-section.png)
 
+</details>
+
+<details>
+<summary><b>📝 Neutral Section (Gray)</b></summary>
+
+### Code:
+```html
+<div class="af-section af-neutral">
+    <h3>📝 Notes</h3>
+    <p>General notes and information...</p>
+    <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+</div>
+```
+
+### Rendered Result:
+![Neutral Section Example](examples/neutral-section.png)
+
+</details>
+
+<details>
+<summary><b>ℹ️ Info Section (Light Blue)</b></summary>
+
+### Code:
+```html
 <div class="af-section af-info">
-    <h3>ℹ️ Model Information</h3>
+    <h3>ℹ️ Information</h3>
     <p>Using: <strong>SDXL 1.0</strong></p>
     <p>Steps: <code>25</code> | CFG: <code>7.5</code> | Sampler: <code>DPM++ 2M Karras</code></p>
-    <a href="https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0">Model Page</a>
 </div>
+```
 
-<div class="af-spacer"></div>
+### Rendered Result:
+![Info Section Example](examples/info-section.png)
 
+</details>
+
+<details>
+<summary><b>⚠️ Warning Section (Yellow)</b></summary>
+
+### Code:
+```html
 <div class="af-section af-warning">
-    <h3>⚠️ Important Notes</h3>
+    <h3>⚠️ Warning</h3>
     <p>This workflow requires:</p>
     <ol>
         <li>High VRAM (8GB+)</li>
@@ -136,69 +133,669 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
         <li>SDXL compatible models</li>
     </ol>
 </div>
+```
+
+### Rendered Result:
+![Warning Section Example](examples/warning-section.png)
+
+</details>
+
+<details>
+<summary><b>💛 Yellow Section (Alternative)</b></summary>
+
+### Code:
+```html
+<div class="af-section af-yellow">
+    <h3>💛 Yellow Section</h3>
+    <p>Alternative yellow styled content with different shade...</p>
+</div>
+```
+
+### Rendered Result:
+![Yellow Section Example](examples/yellow-section.png)
+
+</details>
+
+<details>
+<summary><b>🔵 Blue Section (Deep Blue)</b></summary>
+
+### Code:
+```html
+<div class="af-section af-blue">
+    <h3>🔵 Blue Section</h3>
+    <p>Deep blue styled content for technical information...</p>
+</div>
+```
+
+### Rendered Result:
+![Blue Section Example](examples/blue-section.png)
+
+</details>
+
+<details>
+<summary><b>🎨 Custom Section (Purple)</b></summary>
+
+### Code:
+```html
+<div class="af-section af-custom">
+    <h3>🎨 Custom</h3>
+    <p>Purple custom styled content for special cases...</p>
+</div>
+```
+
+### Rendered Result:
+![Custom Section Example](examples/custom-section.png)
+
+</details>
+
+---
+
+## 📏 Predefined Spacers
+
+Use these spacer classes to control vertical spacing between elements.
+
+<details>
+<summary><b>All Spacer Sizes</b> - Click to see examples</summary>
+
+### Code:
+```html
+<div class="af-section af-positive">Content Block 1</div>
+
+<!-- Top spacer (2px) -->
+<div class="af-spacer-top"></div>
+
+<div class="af-section af-negative">Content Block 2</div>
+
+<!-- Mini spacer (4px) -->
+<div class="af-spacer-mini"></div>
+
+<div class="af-section af-neutral">Content Block 3</div>
+
+<!-- Small spacer (8px) -->
+<div class="af-spacer-small"></div>
+
+<div class="af-section af-info">Content Block 4</div>
+
+<!-- Regular spacer (16px) -->
+<div class="af-spacer"></div>
+
+<div class="af-section af-warning">Content Block 5</div>
+
+<!-- Large spacer (32px) -->
+<div class="af-spacer-large"></div>
+
+<div class="af-section af-custom">Content Block 6</div>
+
+<!-- Extra large spacer (48px) -->
+<div class="af-spacer-xl"></div>
+
+<div class="af-section af-blue">Content Block 7</div>
+```
+
+### Rendered Result:
+![Spacer Examples](examples/spacers.png)
+
+### Size Reference:
+- `af-spacer-top` → 2px
+- `af-spacer-mini` → 4px
+- `af-spacer-small` → 8px
+- `af-spacer` → 16px (default)
+- `af-spacer-large` → 32px
+- `af-spacer-xl` → 48px
+
+</details>
+
+---
+
+## 📐 Column Layouts
+
+Create two-column layouts using the predefined column classes.
+
+<details>
+<summary><b>Two-Column Layout Example</b></summary>
+
+### Code:
+```html
+<div class="row">
+    <div class="af-column-half-left">
+        <div class="af-section af-positive">
+            <h3>🎨 Style Settings</h3>
+            <ul>
+                <li>Style: Photorealistic</li>
+                <li>Aspect: 16:9</li>
+                <li>Quality: Ultra High</li>
+            </ul>
+        </div>
+        
+        <div class="af-spacer"></div>
+        
+        <div class="af-section af-info">
+            <h3>⚙️ Technical</h3>
+            <p>Resolution: <code>1920x1080</code></p>
+            <p>Batch: <code>4</code></p>
+        </div>
+    </div>
+    
+    <div class="af-column-half-right">
+        <div class="af-section af-negative">
+            <h3>🚫 Exclusions</h3>
+            <ul>
+                <li>No text in image</li>
+                <li>Avoid oversaturation</li>
+                <li>No watermarks</li>
+            </ul>
+        </div>
+        
+        <div class="af-spacer"></div>
+        
+        <div class="af-section af-warning">
+            <h3>💡 Tips</h3>
+            <p>Use lower CFG for more creative results</p>
+        </div>
+    </div>
+</div>
+```
+
+### Rendered Result:
+![Two Column Layout Example](examples/two-column-layout.png)
+
+**Note:** The `row` class ensures proper column wrapping, and each column is 49% width with 1% margin.
+
+</details>
+
+---
+
+## 🔗 Clickable Links & Actions
+
+All links require **Ctrl+Click** to activate for safety and to prevent accidental navigation. JavaScript actions work on links when Ctrl+Click is used.
+
+<details>
+<summary><b>Link Examples</b></summary>
+
+### Code:
+```html
+<div class="af-section af-info">
+    <h3>🔗 Interactive Links</h3>
+    
+    <!-- External link (opens in new tab with Ctrl+click) -->
+    <p><a href="https://github.com/comfyanonymous/ComfyUI">ComfyUI GitHub Repository</a></p>
+    
+    <!-- Alert action (triggers with Ctrl+click) -->
+    <p><a href="#" onclick="alert('Custom action triggered!')">Click for alert</a></p>
+    
+    <!-- Console log action -->
+    <p><a href="#" onclick="console.log('Debug message logged')">Log to console</a></p>
+    
+    <!-- Multiple actions -->
+    <p><a href="https://example.com" onclick="console.log('Link clicked')">Link with logging</a></p>
+    
+    <!-- JavaScript links -->
+    <p><a href="javascript:alert('Hello from JavaScript!')">JavaScript alert link</a></p>
+</div>
+```
+
+### Rendered Result:
+![Link Examples](examples/links.png)
+
+**Remember:** Hold **Ctrl** while clicking any link to activate it!
+
+</details>
+
+---
+
+## 💻 Custom HTML & Inline Styles
+
+The node supports **standard HTML** with **inline CSS styling**. You can write custom HTML just like you would for a webpage.
+
+### ✅ Supported Features
+
+- **All standard HTML tags**: `<div>`, `<span>`, `<p>`, `<h1>`-`<h6>`, `<ul>`, `<ol>`, `<li>`, `<table>`, etc.
+- **Inline CSS styles**: Use the `style` attribute on any element
+- **Text formatting**: `<strong>`, `<em>`, `<u>`, `<small>`, `<code>`, `<pre>`
+- **Lists**: Ordered and unordered lists
+- **Tables**: Full table support with styling
+- **Horizontal rules**: `<hr>` for dividers
+- **Code blocks**: `<code>` and `<pre>` tags
+
+---
+
+## 🎨 Custom Styling Examples
+
+<details>
+<summary><b>Custom Spacers with Inline Styles</b></summary>
+
+### Code:
+```html
+<div class="af-section af-positive">First Section</div>
+
+<!-- Custom 12px spacer -->
+<div style="height: 12px;"></div>
+
+<div class="af-section af-negative">Second Section</div>
+
+<!-- Custom 24px spacer -->
+<div style="height: 24px;"></div>
+
+<div class="af-section af-info">Third Section</div>
+
+<!-- Custom 50px spacer -->
+<div style="height: 50px;"></div>
+
+<div class="af-section af-warning">Fourth Section</div>
+```
+
+### Rendered Result:
+![Custom Spacers](examples/custom-spacers.png)
+
+</details>
+
+<details>
+<summary><b>Custom Colored Sections</b></summary>
+
+### Code:
+```html
+<!-- Custom pink section -->
+<div style="background: rgba(255, 100, 150, 0.1); border-left: 4px solid #ff6496; padding: 12px; border-radius: 6px; margin: 8px 0;">
+    <h3 style="color: #ff6496; margin-top: 0;">Custom Pink Section</h3>
+    <p>Your content here with custom colors...</p>
+</div>
+
+<!-- Custom teal section -->
+<div style="background: rgba(64, 224, 208, 0.1); border-left: 4px solid #40E0D0; padding: 12px; border-radius: 6px; margin: 8px 0;">
+    <h3 style="color: #40E0D0; margin-top: 0;">Custom Teal Section</h3>
+    <p>Different color scheme for variety...</p>
+</div>
+
+<!-- Custom orange section -->
+<div style="background: rgba(255, 165, 0, 0.1); border-left: 4px solid #FFA500; padding: 12px; border-radius: 6px; margin: 8px 0;">
+    <h3 style="color: #FFA500; margin-top: 0;">Custom Orange Section</h3>
+    <p>Create any color combination you need...</p>
+</div>
+```
+
+### Rendered Result:
+![Custom Colors](examples/custom-colors.png)
+
+</details>
+
+<details>
+<summary><b>Custom Text Styling</b></summary>
+
+### Code:
+```html
+<div class="af-section af-neutral">
+    <!-- Large blue bold text -->
+    <p style="font-size: 18px; color: #58a6ff; font-weight: bold;">
+        Large blue bold text for emphasis
+    </p>
+    
+    <!-- Small gray italic text -->
+    <p style="font-size: 12px; color: #888; font-style: italic;">
+        Small gray italic text for subtitles
+    </p>
+    
+    <!-- Highlighted text -->
+    <p style="background: rgba(255, 255, 0, 0.2); padding: 4px 8px; border-radius: 3px;">
+        Highlighted text with yellow background
+    </p>
+    
+    <!-- Custom monospace -->
+    <p style="font-family: 'Courier New', monospace; color: #90EE90; background: rgba(0,0,0,0.4); padding: 8px; border-radius: 4px;">
+        Custom monospace text for code-like display
+    </p>
+</div>
+```
+
+### Rendered Result:
+![Custom Text Styles](examples/custom-text.png)
+
+</details>
+
+<details>
+<summary><b>Custom Borders and Boxes</b></summary>
+
+### Code:
+```html
+<!-- Dashed border box -->
+<div style="border: 2px dashed #90EE90; padding: 16px; margin: 10px 0; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+    <p><strong>Dashed Border Box</strong></p>
+    <p>Content in a custom dashed border box</p>
+</div>
+
+<!-- Solid border with shadow effect -->
+<div style="border: 2px solid #58a6ff; padding: 16px; margin: 10px 0; background: rgba(88, 166, 255, 0.05); box-shadow: 0 4px 8px rgba(0,0,0,0.3); border-radius: 8px;">
+    <p><strong>Solid Border with Shadow</strong></p>
+    <p>Creates depth with shadow effect</p>
+</div>
+
+<!-- Thick left border -->
+<div style="border-left: 8px solid #BA55D3; padding: 16px; margin: 10px 0; background: rgba(186, 85, 211, 0.1);">
+    <p><strong>Thick Left Border</strong></p>
+    <p>Emphasizes content with thick accent border</p>
+</div>
+```
+
+### Rendered Result:
+![Custom Borders](examples/custom-borders.png)
+
+</details>
+
+<details>
+<summary><b>Custom Layouts and Alignment</b></summary>
+
+### Code:
+```html
+<!-- Centered content -->
+<div style="text-align: center; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 8px; margin: 10px 0;">
+    <h2 style="margin: 0 0 12px 0;">Centered Title</h2>
+    <p style="margin: 0;">Centered paragraph text for announcements</p>
+</div>
+
+<!-- Right-aligned content -->
+<div style="text-align: right; padding: 10px; border-top: 1px solid #555; margin-top: 20px;">
+    <small style="color: #888;">Right-aligned footer note</small>
+</div>
+
+<!-- Flex layout for inline elements -->
+<div style="display: flex; gap: 10px; align-items: center; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 6px;">
+    <span style="background: #90EE90; color: #000; padding: 4px 8px; border-radius: 4px; font-weight: bold;">Tag 1</span>
+    <span style="background: #58a6ff; color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: bold;">Tag 2</span>
+    <span style="background: #FFA500; color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: bold;">Tag 3</span>
+</div>
+```
+
+### Rendered Result:
+![Custom Layouts](examples/custom-layouts.png)
+
+</details>
+
+<details>
+<summary><b>Custom Info Cards</b></summary>
+
+### Code:
+```html
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 150px; background: rgba(144, 238, 144, 0.1); border: 1px solid #90EE90; padding: 12px; border-radius: 6px; text-align: center;">
+        <strong style="color: #90EE90; display: block; margin-bottom: 4px;">Steps</strong>
+        <p style="margin: 0; font-size: 24px; color: #fff; font-weight: bold;">25</p>
+    </div>
+    
+    <div style="flex: 1; min-width: 150px; background: rgba(135, 206, 235, 0.1); border: 1px solid #87CEEB; padding: 12px; border-radius: 6px; text-align: center;">
+        <strong style="color: #87CEEB; display: block; margin-bottom: 4px;">CFG Scale</strong>
+        <p style="margin: 0; font-size: 24px; color: #fff; font-weight: bold;">7.5</p>
+    </div>
+    
+    <div style="flex: 1; min-width: 150px; background: rgba(186, 85, 211, 0.1); border: 1px solid #BA55D3; padding: 12px; border-radius: 6px; text-align: center;">
+        <strong style="color: #BA55D3; display: block; margin-bottom: 4px;">Batch Size</strong>
+        <p style="margin: 0; font-size: 24px; color: #fff; font-weight: bold;">4</p>
+    </div>
+</div>
+```
+
+### Rendered Result:
+![Custom Info Cards](examples/custom-cards.png)
+
+</details>
+
+---
+
+## ⚠️ JavaScript Limitations
+
+JavaScript functionality is limited for security. It **only works on `<a>` (link) elements** and **only when Ctrl+Click is used**.
+
+### ✅ What Works (with Ctrl+Click on links):
+```html
+<!-- ✅ Alert dialogs -->
+<a href="#" onclick="alert('Hello!')">Alert on click</a>
+
+<!-- ✅ Console logging -->
+<a href="#" onclick="console.log('Debug info')">Log to console</a>
+
+<!-- ✅ Confirmation dialogs -->
+<a href="javascript:confirm('Are you sure?')">Confirmation dialog</a>
+
+<!-- ✅ Multiple statements -->
+<a href="#" onclick="alert('First'); console.log('Second')">Multiple actions</a>
+```
+
+### ❌ What Doesn't Work:
+```html
+<!-- ❌ Script tags are ignored -->
+<script>
+    console.log('This will not run');
+</script>
+
+<!-- ❌ onclick on non-link elements -->
+<button onclick="alert('No')">Won't work</button>
+<div onclick="alert('No')">Won't work</div>
+
+<!-- ❌ Auto-executing events -->
+<div onload="alert('Page loaded')">Won't fire</div>
+<body onload="init()">Won't fire</body>
+
+<!-- ❌ DOM manipulation -->
+<a href="#" onclick="document.getElementById('test').innerHTML = 'Changed'">
+    Can't modify other elements
+</a>
+
+<!-- ❌ Browser storage APIs -->
+<a href="#" onclick="localStorage.setItem('key', 'value')">
+    Storage APIs blocked
+</a>
+```
+
+### Security Restrictions:
+- **No `<script>` tags** - Script tags are not executed for security
+- **No external scripts** - Cannot load external JavaScript files
+- **Ctrl+Click required** - All link interactions require Control key
+- **No DOM manipulation** - JavaScript cannot modify the HTML content
+- **No browser storage** - `localStorage` and `sessionStorage` are blocked
+
+---
+
+## 📋 Complete Workflow Example
+
+<details>
+<summary><b>Full Workflow Documentation Template</b></summary>
+
+### Code:
+```html
+<div class="af-section af-positive">
+    <h2>🟢 Positive Prompts</h2>
+    <p><strong>masterpiece, best quality, highly detailed, 8k uhd, professional photography</strong></p>
+    <ul>
+        <li>Professional lighting and composition</li>
+        <li>Sharp focus with bokeh background</li>
+        <li>Photorealistic textures and materials</li>
+        <li>Award-winning cinematography</li>
+    </ul>
+    <a href="#" onclick="alert('Positive prompts copied to clipboard!')">📋 Copy Prompts</a>
+</div>
+
+<div class="af-spacer"></div>
+
+<div class="af-section af-negative">
+    <h2>🔴 Negative Prompts</h2>
+    <p><em>low quality, worst quality, blurry, out of focus</em></p>
+    <p><code>nsfw, watermark, signature, text, bad anatomy, deformed, ugly, mutation</code></p>
+</div>
+
+<div class="af-spacer-large"></div>
+
+<div class="af-section af-info">
+    <h3>ℹ️ Model Information</h3>
+    <p>Model: <strong>SDXL 1.0 Base</strong></p>
+    <p>Settings: Steps <code>25</code> | CFG <code>7.5</code> | Sampler <code>DPM++ 2M Karras</code></p>
+    <p>Resolution: <code>1024x1024</code> | Batch Size: <code>4</code></p>
+    <a href="https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0">📦 Model Page</a>
+</div>
+
+<div class="af-spacer"></div>
+
+<div class="af-section af-warning">
+    <h3>⚠️ System Requirements</h3>
+    <p>This workflow requires:</p>
+    <ol>
+        <li>GPU with 8GB+ VRAM (12GB recommended)</li>
+        <li>ComfyUI latest version</li>
+        <li>SDXL compatible checkpoint</li>
+        <li>Required custom nodes installed</li>
+    </ol>
+</div>
 
 <div class="af-spacer"></div>
 
 <div class="af-section af-neutral">
     <h3>📝 Workflow Notes</h3>
-    <p>Remember to:</p>
+    <p><strong>Tips for best results:</strong></p>
     <ul>
-        <li>Check image dimensions before generating</li>
-        <li>Adjust CFG scale for different results</li>
-        <li>Save frequently!</li>
+        <li>Verify image dimensions before generating</li>
+        <li>Lower CFG (6-7) for more creative interpretations</li>
+        <li>Higher CFG (8-10) for more prompt adherence</li>
+        <li>Save your workflow frequently!</li>
     </ul>
     <hr>
-    <p><small>Last updated: Today | Created with AF Enhanced HTML Node</small></p>
+    <p><small>Last updated: 2025-01-15 | Created with AF Enhanced HTML Node v0.0.5</small></p>
 </div>
 ```
+
+### Rendered Result:
+![Complete Workflow Example](examples/complete-workflow.png)
+
+</details>
+
+---
+
 ## 🛠️ Installation
-Create folder: ComfyUI/custom_nodes/ComfyUI-AF_Enhanced_HTML_Note/
 
-Add the Python file: AF_Enhanced_HTML_Note.py
+1. Create folder: `ComfyUI/custom_nodes/ComfyUI-AF_Enhanced_HTML_Note/`
+2. Add the Python file: `AF_Enhanced_HTML_Note.py`
+3. Add the init file: `__init__.py`
+4. Create `web/` subfolder
+5. Add the JavaScript file: `web/AF_Enhanced_HTML_Note.js`
+6. Restart ComfyUI
+7. Find the node under **AF - Nodes > AF - Enhanced HTML Note**
 
-Add the init file: __init__.py
-
-Create web/ subfolder
-
-Add the JavaScript file: web/AF_Enhanced_HTML_Note.js
-
-Restart ComfyUI
-
-Find the node under AF - Nodes > AF - Enhanced HTML Note
-
-## 🔧 Technical Details
-Node Name: AF_Enhanced_HTML_Note
-
-Category: AF - Nodes
-
-Input: HTML content (multiline string)
-
-Output: None (display only)
-
-Compatibility: ComfyUI latest version
+---
 
 ## 🐛 Troubleshooting
-Node won't select/move?
 
-Click on the node's title bar or edges, not the HTML content area
+<details>
+<summary><b>Common Issues and Solutions</b></summary>
 
-Links not working?
+### Node won't select/move?
+**Solution:** Click on the node's title bar or edges, not the HTML content area
 
-Remember to hold the Control key while clicking links
+### Links not working?
+**Solution:** Remember to hold the **Control key** while clicking links
 
-Can't edit content?
+### Can't edit content?
+**Solution:** Double-click directly on the HTML content (not the node borders)
 
-Double-click directly on the HTML content (not the node borders)
+### Scrollbar appears unnecessarily?
+**Solution:** The node has minimal padding; resize if you need more space
 
-Scrollbar appears unnecessarily?
+### JavaScript not working?
+**Solution:** 
+- Ensure you're holding **Ctrl** when clicking
+- Check that you're using `onclick` handlers on `<a>` tags
+- Remember that `<script>` tags don't execute for security
 
-The node has minimal padding; resize if you need more space
+### Styling not applying?
+**Solution:**
+- Use inline styles with the `style` attribute
+- Check for CSS syntax errors in your inline styles
+- Predefined classes must be spelled exactly as documented
 
-## 📞 Support
-Creator: Alex Furer
+### Content not saving?
+**Solution:** 
+- Press **Escape** or click outside to exit edit mode
+- Ensure you're not just closing the browser/tab
+- Save your ComfyUI workflow after making changes
 
-Co-Creators: Claude AI & DeepSeek
+</details>
 
-GitHub: https://github.com/alFrame/ComfyUI_AF_FindNodeByID
+---
 
-License: MIT License
+## 📚 Quick Reference
+
+### Predefined Color Classes
+| Class | Color | Use Case |
+|-------|-------|----------|
+| `af-positive` | Green | Positive prompts, success messages |
+| `af-negative` | Red | Negative prompts, errors, warnings |
+| `af-neutral` | Gray | General notes, neutral information |
+| `af-info` | Light Blue | Information, technical details |
+| `af-warning` | Yellow | Warnings, cautions |
+| `af-yellow` | Yellow | Alternative yellow styling |
+| `af-blue` | Deep Blue | Technical information |
+| `af-custom` | Purple | Custom content, special cases |
+
+### Predefined Spacer Classes
+| Class | Height | Use Case |
+|-------|--------|----------|
+| `af-spacer-top` | 2px | Minimal spacing |
+| `af-spacer-mini` | 4px | Tiny spacing |
+| `af-spacer-small` | 8px | Small spacing |
+| `af-spacer` | 16px | Default spacing |
+| `af-spacer-large` | 32px | Large spacing |
+| `af-spacer-xl` | 48px | Extra large spacing |
+
+### Column Layout Classes
+| Class | Width | Use Case |
+|-------|-------|----------|
+| `af-column-half-left` | 49% | Left column in two-column layout |
+| `af-column-half-right` | 49% | Right column in two-column layout |
+| `row` | Container | Wrap around columns for proper layout |
+
+### Keyboard Shortcuts
+| Shortcut | Action |
+|----------|--------|
+| **Double-click** | Enter edit mode |
+| **Escape** | Exit edit mode and save |
+| **Ctrl+Click** | Activate links and JavaScript actions |
+
+---
+
+## 📞 Support & Credits
+
+- **Creator:** Alex Furer
+- **Co-Creators:** Claude AI & DeepSeek
+- **GitHub:** [ComfyUI_AF_FindNodeByID](https://github.com/alFrame/ComfyUI_AF_FindNodeByID)
+- **License:** MIT License
+- **Version:** 0.0.5
+
+---
+
+## 📸 Creating Example Screenshots
+
+To create the example images referenced in this README:
+
+1. Open ComfyUI and add the AF Enhanced HTML Note node
+2. Copy each example code from the collapsible sections above
+3. Paste into the node and exit edit mode
+4. Take a screenshot of the rendered result
+5. Save as PNG in the `examples/` folder with the corresponding filename
+6. Commit and push to your repository
+
+**Required Screenshots:**
+- `positive-section.png`
+- `negative-section.png`
+- `neutral-section.png`
+- `info-section.png`
+- `warning-section.png`
+- `yellow-section.png`
+- `blue-section.png`
+- `custom-section.png`
+- `spacers.png`
+- `two-column-layout.png`
+- `links.png`
+- `custom-spacers.png`
+- `custom-colors.png`
+- `custom-text.png`
+- `custom-borders.png`
+- `custom-layouts.png`
+- `custom-cards.png`
+- `complete-workflow.png`
+
+Once you add the screenshots, the README will automatically display them!
