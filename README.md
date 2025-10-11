@@ -20,6 +20,35 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 
 ---
 
+## 🛠️ Installation
+
+### Via ComfyUI Manager (Recommended)
+1. Open ComfyUI Manager
+2. Search for "AF - Enhanced HTML Note"
+3. Install
+
+### Manual Installation
+1. Clone this repository into your `ComfyUI/custom_nodes/` directory:
+   ```bash
+   git clone https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note.git
+	```
+	
+---
+
+## ⚠️ Disclaimer
+
+This ComfyUI custom node is developed through AI-assisted coding, prompted and directed by a human developer. While considerable care has been taken to ensure proper functionality, security, and compatibility, this software is provided **"as is" without warranty of any kind**, express or implied.
+
+**By using this custom node, you acknowledge that:**
+- You install and run this software at your own risk
+- The creator is not liable for any damages, data loss, or issues arising from its use
+- Compatibility with your specific setup is not guaranteed
+- You should test thoroughly in a safe environment before production use
+
+This node has been carefully designed and tested, but individual system configurations may vary. Please report any issues on the GitHub repository.
+
+---
+
 ## 🎮 Interaction Guide
 
 ### Editing Content
@@ -626,18 +655,6 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ![Complete Workflow Example](examples/complete-workflow.webp)
 
 </details>
-
----
-
-## 🛠️ Installation
-
-1. Create folder: `ComfyUI/custom_nodes/ComfyUI-AF_Enhanced_HTML_Note/`
-2. Add the Python file: `AF_Enhanced_HTML_Note.py`
-3. Add the init file: `__init__.py`
-4. Create `web/` subfolder
-5. Add the JavaScript file: `web/AF_Enhanced_HTML_Note.js`
-6. Restart ComfyUI
-7. Find the node under **AF - Nodes > AF - Enhanced HTML Note**
 
 ---
 
