@@ -738,6 +738,6 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 
 - **Creator:** Alex Furer
 - **Co-Creators:** Claude AI & DeepSeek
-- **GitHub:** [ComfyUI_AF_FindNodeByID](https://github.com/alFrame/ComfyUI_AF_FindNodeByID)
+- **GitHub:** [ComfyUI_AF_FindNodes](https://github.com/alFrame/ComfyUI-AF-Find-Nodes)
 - **License:** MIT License
 - **Version:** 0.0.5
