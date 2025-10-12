@@ -85,3 +85,5 @@ yarn-error.log*
 
 # AF specific
 Status.txt
+*.psd
+*.docx
