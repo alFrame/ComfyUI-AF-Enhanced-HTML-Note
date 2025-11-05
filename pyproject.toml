@@ -1,0 +1,14 @@
+[project]
+name = "af-enhanced-html-note"
+description = "A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's directly inside the workflow using rich HTML formatting."
+version = "0.0.08"
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note"
+
+[tool.comfy]
+PublisherId = "alframe"
+DisplayName = "ComfyUI AF - Enhanced HTML Note"
+Icon = "https://raw.githubusercontent.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note/main/Docs/icon.png"

@@ -2,28 +2,15 @@
 #
 # Creator: Alex Furer - Co-Creator(s): Claude AI & DeepSeek
 #
-# Description:
-# A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
+# Description: A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
 #
-# Repo and ReadMe URL: https://github.com/alFrame/ComfyUI-AF-Find-Nodes
+# Repo and ReadMe URL: https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note
 #
-# Praise, comment, bugs, improvements: https://github.com/alFrame/ComfyUI-AF-Find-Nodes/issues
+# Issues praise, comment, bugs, improvements: https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note/issues
 #
 # LICENSE: MIT License
 #
-# v0.0.07
-#
-# Usage:
-# Read Me on Github
-#
-# Changelog:
-# "v0.0.07 - Comsetics, making tis a version",
-# "v0.0.06 - Removed all Java Script functionality for links and updated README",
-# "v0.0.05 - Made edit mode less intrusive and keep ComfyUI canvas navigation (panning, zooming [space bar] and [H] now work to pan around the canvas)",
-# "v0.0.04 - Fixed node selection and resizing by removing OUTPUT_NODE and using proper widget approach. Double clicking is now used to edit the html Mouse interaction is now persistent to ComfyUI behavior. Except middle mouse button for panning.",
-# "v0.0.03 - Fixed node resizing issues on save/reload. Improved selection and edit mode behavior to match ComfyUI core notes. Fixed middle mouse button panning over the node. Improved HTML indentation in default content",
-# "v0.0.02 - Fixed naming consistency to HTML_Note Implemented single-window toggle behavior",
-# "v0.0.01 - Initial Version"
+# Usage: https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note
 #
 # Feature Requests / Wet Dreams
 # -

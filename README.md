@@ -2,10 +2,6 @@
 
 A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's directly inside the workflow using rich HTML formatting.
 
-![Version](https://img.shields.io/badge/version-0.0.5-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![ComfyUI](https://img.shields.io/badge/ComfyUI-Compatible-orange)
-
 ---
 
 ## ✨ Key Features
@@ -89,7 +85,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Positive Section Example](examples/positive-section.webp)
+![Positive Section Example](Docs/examples/positive-section.webp)
 
 </details>
 
@@ -106,7 +102,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Negative Section Example](examples/negative-section.webp)
+![Negative Section Example](Docs/examples/negative-section.webp)
 
 </details>
 
@@ -127,7 +123,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Neutral Section Example](examples/neutral-section.webp)
+![Neutral Section Example](Docs/examples/neutral-section.webp)
 
 </details>
 
@@ -144,7 +140,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Info Section Example](examples/info-section.webp)
+![Info Section Example](Docs/examples/info-section.webp)
 
 </details>
 
@@ -165,7 +161,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Warning Section Example](examples/warning-section.webp)
+![Warning Section Example](Docs/examples/warning-section.webp)
 
 </details>
 
@@ -181,7 +177,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Yellow Section Example](examples/yellow-section.webp)
+![Yellow Section Example](Docs/examples/yellow-section.webp)
 
 </details>
 
@@ -197,7 +193,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Blue Section Example](examples/blue-section.webp)
+![Blue Section Example](Docs/examples/blue-section.webp)
 
 </details>
 
@@ -213,7 +209,7 @@ The node comes with several predefined colored section styles. Click each sectio
 ```
 
 ### Rendered Result:
-![Custom Section Example](examples/custom-section.webp)
+![Custom Section Example](Docs/examples/custom-section.webp)
 
 </details>
 
@@ -262,7 +258,7 @@ Use these spacer classes to control vertical spacing between elements.
 ```
 
 ### Rendered Result:
-![Spacer Examples](examples/spacers.webp)
+![Spacer Examples](Docs/examples/spacers.webp)
 
 ### Size Reference:
 - `af-spacer-top` → 2px
@@ -326,7 +322,7 @@ Create two-column layouts using the predefined column classes.
 ```
 
 ### Rendered Result:
-![Two Column Layout Example](examples/two-column-layout.webp)
+![Two Column Layout Example](Docs/examples/two-column-layout.webp)
 
 **Note:** The `row` class ensures proper column wrapping, and each column is 49% width with 1% margin.
 
@@ -363,7 +359,7 @@ All links require **Ctrl+Click** to activate for safety and to prevent accidenta
 **Remember:** Hold **Ctrl** while clicking any link to activate it!
 
 ### Rendered Result:
-![Link Examples](examples/links.webp)
+![Link Examples](Docs/examples/links.webp)
 
 </details>
 
@@ -431,7 +427,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Spacers](examples/custom-spacers.webp)
+![Custom Spacers](Docs/examples/custom-spacers.webp)
 
 </details>
 
@@ -460,7 +456,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Colors](examples/custom-colors.webp)
+![Custom Colors](Docs/examples/custom-colors.webp)
 
 </details>
 
@@ -493,7 +489,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Text Styles](examples/custom-text.webp)
+![Custom Text Styles](Docs/examples/custom-text.webp)
 
 </details>
 
@@ -522,7 +518,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Borders](examples/custom-borders.webp)
+![Custom Borders](Docs/examples/custom-borders.webp)
 
 </details>
 
@@ -551,7 +547,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Layouts](examples/custom-layouts.webp)
+![Custom Layouts](Docs/examples/custom-layouts.webp)
 
 </details>
 
@@ -579,7 +575,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Custom Info Cards](examples/custom-cards.webp)
+![Custom Info Cards](Docs/examples/custom-cards.webp)
 
 </details>
 
@@ -652,7 +648,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 ```
 
 ### Rendered Result:
-![Complete Workflow Example](examples/complete-workflow.webp)
+![Complete Workflow Example](Docs/examples/complete-workflow.webp)
 
 </details>
 
@@ -734,10 +730,26 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 
 ---
 
-## 📞 Support & Credits
+## ⚠️ Disclaimer
 
-- **Creator:** Alex Furer
-- **Co-Creators:** Claude AI & DeepSeek
-- **GitHub:** [ComfyUI_AF_FindNodes](https://github.com/alFrame/ComfyUI-AF-Find-Nodes)
-- **License:** MIT License
-- **Version:** 0.0.5
+This ComfyUI custom node is developed through AI-assisted coding. While carefully tested, it is provided **"as is" without warranty**. 
+
+**By using this node pack:**
+- You install and run at your own risk
+- The creator is not liable for damages or data loss
+- Compatibility with your setup is not guaranteed
+- Test in a safe environment before production use
+
+Report issues on GitHub - we appreciate your feedback!
+
+---
+
+## 📚 Additional Resources
+
+- **[Changelog](CHANGELOG.md)** - Version history and updates
+- [GitHub Issues](https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note) - Report bugs & request features
+- [License](LICENSE) - MIT License details
+
+---
+
+**Made with ❤️ by Alex Furer & Qwen3, Claude AI, DeepSeek**

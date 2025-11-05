@@ -1,0 +1,12 @@
+{
+  "name": "af-enhanced-html-note",
+  "version": "0.0.08", 
+  "description": "A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's directly inside the workflow using rich HTML formatting.",
+  "author": "Alex Furer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note"
+  },
+  "nodepath": "custom_nodes/ComfyUI-AF-Enhanced_HTML_Note"
+}
