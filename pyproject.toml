@@ -11,4 +11,4 @@ Repository = "https://github.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note"
 [tool.comfy]
 PublisherId = "alframe"
 DisplayName = "ComfyUI AF - Enhanced HTML Note"
-Icon = "https://raw.githubusercontent.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note/main/Docs/icon.png"
+Icon = "https://fullframestudios.ch/ComfyUI-Icon/icon.png"
