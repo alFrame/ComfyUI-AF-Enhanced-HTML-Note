@@ -1,5 +1,8 @@
 ## Changelog
 
+### v0.0.11
+- Changed Icon location to my own website as the ComfyUI Registry botched out on any GitHub URL I tried...
+
 ### v0.0.10
 - Updated the README (CSS file editing)
 
