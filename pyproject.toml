@@ -1,7 +1,7 @@
 [project]
 name = "af-enhanced-html-note"
 description = "A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's directly inside the workflow using rich HTML formatting."
-version = "0.0.09"
+version = "0.0.10"
 license = {file = "LICENSE"}
 dependencies = []
 

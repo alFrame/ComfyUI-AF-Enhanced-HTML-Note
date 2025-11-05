@@ -67,6 +67,7 @@ You can edit this file directly to:
 - Create new custom section classes
 - Change scrollbar styling
 - Customize the edit button appearance
+- OR **completely** replace the entire CSS and use your own classes. (Don't forget to change the classes in the HTML node in your ComfyUI workflow !!)
 
 ### Example: Creating a Custom Section Color
 
