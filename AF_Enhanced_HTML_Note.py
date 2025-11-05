@@ -4,13 +4,13 @@
 #
 # Description: A ComfyUI Note node with html capabilities. Create notes, UI's and ReadMe's directly inside the workflow, using html.
 #
-# Repo and ReadMe URL: https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note
+# Repo and ReadMe URL: https://github.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note
 #
-# Issues praise, comment, bugs, improvements: https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note/issues
+# Issues praise, comment, bugs, improvements: https://github.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note/issues
 #
 # LICENSE: MIT License
 #
-# Usage: https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note
+# Usage: https://github.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note
 #
 # Feature Requests / Wet Dreams
 # -

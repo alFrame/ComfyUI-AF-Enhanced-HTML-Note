@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.09
+- Added nodes.py and node.js for ComfyUI registry and Manager compliance
+- Made sure the repo name change from "ComfyUI-AF-Enhanced_HTML_Note" to "ComfyUI-AF-Enhanced-HTML-Note" is consistent for all links and such
+
 ### v0.0.08
 - Moved the CSS from the JS file to it's own file.
 - Added CHANGELOG.md

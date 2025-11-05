@@ -1,4 +1,4 @@
-// File: web/AF_Enhanced_HTML_Note.js
+// File: web/AF-Enhanced-HTML-Note.js
 
 import { app } from "../../scripts/app.js";
 
@@ -9,54 +9,48 @@ function injectStyles() {
         const link = document.createElement('link');
         link.id = styleId;
         link.rel = 'stylesheet';
-        link.href = './web/AF_Enhanced_HTML_Note.css';
+        
+        // Use the same base path as our JS file
+        const jsPath = import.meta.url;
+        const basePath = jsPath.substring(0, jsPath.lastIndexOf('/'));
+        link.href = basePath + '/AF-Enhanced-HTML-Note.css';
+        
         document.head.appendChild(link);
-    }
-}
-
-// Inject styles
-function injectStyles() {
-    const styleId = 'af-html-note-styles';
-    if (!document.getElementById(styleId)) {
-        const style = document.createElement('style');
-        style.id = styleId;
-        style.textContent = AF_HTML_NOTE_STYLES;
-        document.head.appendChild(style);
     }
 }
 
 app.registerExtension({
     name: "AF.enhanced.html.note",
-    
+
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
         if (nodeData.name === "AF_Enhanced_HTML_Note") {
             injectStyles();
-            
+
             // Store the original onNodeCreated
             const originalOnNodeCreated = nodeType.prototype.onNodeCreated;
-            
+
             nodeType.prototype.onNodeCreated = function() {
                 const result = originalOnNodeCreated?.apply(this, arguments);
-                
+
                 this.isEditMode = false;
                 this.size = [400, 300];
-                
+
                 // Don't hide the original widget - instead, replace it with our custom display
                 setTimeout(() => {
                     const htmlWidget = this.widgets?.find(w => w.name === "html_content");
                     if (htmlWidget && htmlWidget.element) {
                         // Store the original value
                         this.htmlContent = htmlWidget.value;
-                        
+
                         // Create our custom container
                         this.createHTMLNoteDisplay(this.htmlContent);
-                        
+
                         // Hide the original widget but keep its value
                         htmlWidget.computeSize = () => [0, 0];
                         htmlWidget.element.style.display = 'none';
                     }
                 }, 0);
-                
+
                 return result;
             };
 
@@ -64,28 +58,28 @@ app.registerExtension({
 				// Create container element
 				this.containerElement = document.createElement("div");
 				this.containerElement.className = "af-html-note-container";
-				
+
 				// Create HTML content display
 				this.contentElement = document.createElement("div");
 				this.contentElement.className = "af-html-note-content";
 				this.contentElement.innerHTML = content;
-				
+
 				// Create editor element
 				this.editorElement = document.createElement("textarea");
 				this.editorElement.className = "af-html-note-editor";
 				this.editorElement.value = content;
-				
+
 				// Create floating edit button
 				this.editButton = document.createElement("div");
 				this.editButton.className = "af-floating-edit-btn";
 				this.editButton.innerHTML = "✏️";
 				this.editButton.title = "Edit HTML";
-				
+
 				// Append all elements to container
 				this.containerElement.appendChild(this.contentElement);
 				this.containerElement.appendChild(this.editorElement);
 				this.containerElement.appendChild(this.editButton);
-				
+
 				// Edit button click handler
 				this.editButton.addEventListener('click', (e) => {
 					if (!this.isEditMode) {
@@ -113,10 +107,10 @@ app.registerExtension({
 						e.stopPropagation();
 					}
 				});
-				
+
 				// Comment
 				this.contentElement.setAttribute('tabindex', '-1');
-				
+
 				this.editorElement.addEventListener('blur', () => {
 					setTimeout(() => {
 						if (this.isEditMode && document.activeElement !== this.editorElement) {
@@ -124,26 +118,26 @@ app.registerExtension({
 						}
 					}, 10);
 				});
-				
+
 				this.contentElement.addEventListener('mousedown', (e) => {
 					// Prevent the content area from getting focus on click
 					e.preventDefault();
-					
+
 					// But don't stop propagation - let ComfyUI handle node selection
 					// Only prevent the default focus behavior
 				});
-				
+
 				// Add as DOM widget
 				this.addDOMWidget("html_note_display", "div", this.containerElement);
 			};
 
             nodeType.prototype.enterEditMode = function() {
                 if (this.isEditMode) return;
-                
+
                 this.isEditMode = true;
                 this.containerElement.classList.add('edit-mode');
                 this.editorElement.value = this.htmlContent;
-                
+
                 setTimeout(() => {
                     this.editorElement.focus();
                     this.editorElement.select();
@@ -152,12 +146,12 @@ app.registerExtension({
 
             nodeType.prototype.exitEditMode = function() {
                 if (!this.isEditMode) return;
-                
+
                 this.isEditMode = false;
                 this.containerElement.classList.remove('edit-mode');
                 this.htmlContent = this.editorElement.value;
                 this.contentElement.innerHTML = this.htmlContent;
-                
+
                 // Update the original widget value
                 const htmlWidget = this.widgets?.find(w => w.name === "html_content");
                 if (htmlWidget) {
@@ -166,7 +160,7 @@ app.registerExtension({
                         htmlWidget.callback(this.htmlContent);
                     }
                 }
-                
+
                 // Re-attach link handlers
                 this.handleLinksInHTML();
             };
@@ -174,12 +168,12 @@ app.registerExtension({
 			// Updated link handler - REMOVED JavaScript execution
 			nodeType.prototype.handleLinksInHTML = function() {
 				if (!this.contentElement) return;
-				
+
 				const links = this.contentElement.querySelectorAll('a');
 				links.forEach(link => {
 					// Remove any existing onclick handlers to prevent JavaScript execution
 					link.onclick = null;
-					
+
 					link.addEventListener('click', (e) => {
 						// Only allow clicks when Ctrl is held
 						if (!document.body.classList.contains('af-ctrl-active')) {
@@ -187,13 +181,13 @@ app.registerExtension({
 							e.stopPropagation();
 							return false;
 						}
-						
+
 						const href = link.getAttribute('href');
-						
+
 						// Handle different types of links
 						if (href) {
 							// External URLs and anchor links - open in new tab
-							if (href.startsWith('http://') || 
+							if (href.startsWith('http://') ||
 								href.startsWith('https://') ||
 								href.startsWith('mailto:') ||
 								href.startsWith('tel:')) {
@@ -218,13 +212,13 @@ app.registerExtension({
 								window.open(href, '_blank');
 							}
 						}
-						
+
 						e.stopPropagation();
 						return false;
 					});
 				});
 			};
-			
+
             // Global Ctrl key handling
             let ctrlKeyActive = false;
 

@@ -11,8 +11,7 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 - **Easy Editing** - Double-click anywhere on the content to edit HTML
 - **Smart Links** - Ctrl+click to open external links (JavaScript disabled for security)
 - **Beautiful Styling** - Predefined color schemes that match ComfyUI's theme
-- **Custom HTML Support** - Write your own HTML with inline styles
-- **No Dependencies** - All CSS is inlined for reliable performance
+- **Custom HTML Support** - Write your own HTML with inline styles or customize the external CSS file
 
 ---
 
@@ -26,22 +25,8 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 ### Manual Installation
 1. Clone this repository into your `ComfyUI/custom_nodes/` directory:
    ```bash
-   git clone https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note.git
+   git clone https://github.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note.git
 	```
-	
----
-
-## ⚠️ Disclaimer
-
-This ComfyUI custom node is developed through AI-assisted coding, prompted and directed by a human developer. While considerable care has been taken to ensure proper functionality, security, and compatibility, this software is provided **"as is" without warranty of any kind**, express or implied.
-
-**By using this custom node, you acknowledge that:**
-- You install and run this software at your own risk
-- The creator is not liable for any damages, data loss, or issues arising from its use
-- Compatibility with your specific setup is not guaranteed
-- You should test thoroughly in a safe environment before production use
-
-This node has been carefully designed and tested, but individual system configurations may vary. Please report any issues on the GitHub repository.
 
 ---
 
@@ -61,6 +46,47 @@ This node has been carefully designed and tested, but individual system configur
 - **Click and drag** the node title bar to move
 - **Drag edges/corners** to resize
 - **Middle mouse button** works for canvas panning (like other nodes)
+
+---
+
+## 🎨 Custom CSS Styling
+
+The node uses an external CSS file (`AF-Enhanced-HTML-Note.css`) that you can customize to match your preferences or create your own styling themes.
+
+### Editing the CSS
+
+The CSS file is located at:
+```
+ComfyUI/custom_nodes/ComfyUI-AF-Enhanced-HTML-Note/web/AF-Enhanced-HTML-Note.css
+```
+
+You can edit this file directly to:
+- Change colors of predefined sections (`.af-positive`, `.af-negative`, etc.)
+- Modify spacing and padding
+- Adjust font sizes and typography
+- Create new custom section classes
+- Change scrollbar styling
+- Customize the edit button appearance
+
+### Example: Creating a Custom Section Color
+
+Add this to the CSS file to create a new teal section style:
+```css
+.af-html-note-content .af-section.af-teal {
+    background: rgba(64, 224, 208, 0.1);
+    border-left-color: #40E0D0;
+}
+```
+
+Then use it in your HTML:
+```html
+<div class="af-section af-teal">
+    <h3>🟢 Teal Section</h3>
+    <p>Your custom styled content...</p>
+</div>
+```
+
+**Note:** After editing the CSS file, refresh your browser (Ctrl+F5 or Cmd+Shift+R) to see the changes.
 
 ---
 
@@ -734,7 +760,7 @@ The node supports **standard HTML** with **inline CSS styling**. You can write c
 
 This ComfyUI custom node is developed through AI-assisted coding. While carefully tested, it is provided **"as is" without warranty**. 
 
-**By using this node pack:**
+**By using this node:**
 - You install and run at your own risk
 - The creator is not liable for damages or data loss
 - Compatibility with your setup is not guaranteed
@@ -747,7 +773,7 @@ Report issues on GitHub - we appreciate your feedback!
 ## 📚 Additional Resources
 
 - **[Changelog](CHANGELOG.md)** - Version history and updates
-- [GitHub Issues](https://github.com/alFrame/ComfyUI-AF-Enhanced_HTML_Note) - Report bugs & request features
+- [GitHub Issues](https://github.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note/issues) - Report bugs & request features
 - [License](LICENSE) - MIT License details
 
 ---
