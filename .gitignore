@@ -83,8 +83,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Ruff cache
+.ruff_cache/
+
 # AF specific
 Status.txt
 *.psd
 *.docx
 helpers/
+nodes.zip
+node.zip
