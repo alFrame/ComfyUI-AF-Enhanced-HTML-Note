@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.12
+- Updated the README. Explained the limitation of the middle mouse ComfyUI panning being blocked by the node
+- Changed the ComfyUI category for cleanliness and standardization
+
 ### v0.0.11
 - Changed Icon location to my own website as the ComfyUI Registry botched out on any GitHub URL I tried...
 

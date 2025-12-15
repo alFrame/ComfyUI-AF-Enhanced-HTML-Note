@@ -151,7 +151,7 @@ class AF_Enhanced_HTML_Note:
 
     RETURN_TYPES = ()
     FUNCTION = "display_html"
-    CATEGORY = "AF - Nodes"
+    CATEGORY = "AF - Nodes/AF - HTML Pack"
     OUTPUT_NODE = False
 
     def display_html(self, html_content):

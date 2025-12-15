@@ -13,6 +13,16 @@ A ComfyUI Note node with HTML capabilities. Create notes, UI's and ReadMe's dire
 - **Beautiful Styling** - Predefined color schemes that match ComfyUI's theme
 - **Custom HTML Support** - Write your own HTML with inline styles or customize the external CSS file
 
+## ⚠️ Known Limitation: Middle Mouse Button Panning
+
+**Issue:** Middle mouse button panning does not work when the cursor is over this node.
+
+**Workaround:** Use the hand tool by pressing `Space` on your keyboard, or pan from outside the node area.
+
+**Technical Context:** Since this node renders HTML content, the browser intercepts middle mouse button events before they can reach the ComfyUI canvas. Despite multiple attempts to capture and forward these events to the underlying canvas, browser security and event handling policies prevent a reliable solution.
+
+If you have ideas for resolving this limitation, please open an [issue](https://github.com/alFrame/ComfyUI-AF-Enhanced-HTML-Note/issues) on the repository.
+
 ---
 
 ## 🛠️ Installation
